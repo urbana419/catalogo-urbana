@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Monturas - Urbana Visión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4, #f97316);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .logo::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 7px #4f46e5;
+        }
+        
+        .logo::after {
+            content: '#';
+            position: absolute;
+            color: #4f46e5;
+            font-size: 16px;
+            font-weight: bold;
+            left: 7px;
+            top: 7px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: #4f46e5;
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.2);
+        }
+        
+        .category-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .category-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .category-desc {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .monturas-grid {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .montura-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .montura-card:hover {
+            transform: translateY(-3px);
+            border-color: #10b981;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.2);
+        }
+        
+        .montura-image {
+            width: 100%;
+            height: 80px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #6b7280;
+        }
+        
+        .montura-code {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .select-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .select-btn:hover {
+            background: #059669;
+        }
+        
+        .back-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #4b5563;
+        }
+        
+        .precios-info {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .precios-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .precio-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .precio-item:last-child {
+            border-bottom: none;
+        }
+        
+        .precio-name {
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .precio-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #10b981;
+        }
+        
+        .contact-info {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .contact-info h4 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .montura-gratis {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo"></div>
+            <h1>Monturas</h1>
+            <p class="subtitle">Urbana Visión - Catálogo</p>
+        </div>
+        
+        <!-- Categorías -->
+        <div id="categories" class="categories">
+            <div class="category-card" onclick="showMonturas('hombre')">
+                <div class="category-icon">👨</div>
+                <div class="category-name">Hombres</div>
+                <div class="category-desc">Clásicas y modernas</div>
+            </div>
+            
+            <div class="category-card" onclick="showMonturas('mujer')">
+                <div class="category-icon">👩</div>
+                <div class="category-name">Mujeres</div>
+                <div class="category-desc">Elegantes y trendy</div>
+            </div>
+            
+            <div class="category-card" onclick="showMonturas('deportivo')">
+                <div class="category-icon">🏃</div>
+                <div class="category-name">Deportivos</div>
+                <div class="category-desc">Resistentes y cómodos</div>
+            </div>
+            
+            <div class="category-card" onclick="showMonturas('niños')">
+                <div class="category-icon">👶</div>
+                <div class="category-name">Niños</div>
+                <div class="category-desc">Divertidos y seguros</div>
+            </div>
+        </div>
+        
+        <!-- Grid de Monturas -->
+        <div id="monturas" class="monturas-grid">
+            <button class="back-btn" onclick="showCategories()">← Volver</button>
+        </div>
+        
+        <!-- Precios -->
+        <div class="precios-info">
+            <div class="precios-title">💎 Precios de Cristales</div>
+            <div class="precio-item">
+                <span class="precio-name">👓 Monofocales</span>
+                <span class="precio-value">$2,500</span>
+            </div>
+            <div class="precio-item">
+                <span class="precio-name">🔍 Bifocales</span>
+                <span class="precio-value">$4,500</span>
+            </div>
+            <div class="precio-item">
+                <span class="precio-name">🔄 Progresivos</span>
+                <span class="precio-value">$8,500</span>
+            </div>
+            <div class="precio-item">
+                <span class="precio-name">✨ Anti-reflejo</span>
+                <span class="precio-value">+$1,000</span>
+            </div>
+            <div class="precio-item">
+                <span class="precio-name">🌞 Transition</span>
+                <span class="precio-value">+$2,000</span>
+            </div>
+            <div class="precio-item">
+                <span class="precio-name">💻 Blue Light</span>
+                <span class="precio-value">+$1,500</span>
+            </div>
+        </div>
+        
+        <!-- Contacto -->
+        <div class="contact-info">
+            <h4>🏥 Urbana Visión</h4>
+            <p style="color: #1e40af; margin-bottom: 10px;">
+                6 meses garantía • Examen gratis
+            </p>
+            <a href="https://wa.me/18097135307?text=Hola Urbana Visión, quiero información sobre monturas" class="whatsapp-btn">
+                📱 WhatsApp: 809-713-5307
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de monturas (puedes agregar más fácilmente)
+        const monturas = {
+            hombre: [
+                { code: 'H001', name: 'Ejecutivo Negro', icon: '🕴️', precio: '$3,800' },
+                { code: 'H002', name: 'Clásico Marrón', icon: '👔', precio: '$2,500' },
+                { code: 'H003', name: 'Moderno Azul', icon: '💼', precio: '$4,200' },
+                { code: 'H004', name: 'Deportivo Negro', icon: '🏃', precio: '$2,900' },
+                { code: 'H005', name: 'Casual Gris', icon: '👨', precio: '$2,300' },
+                { code: 'H006', name: 'Vintage Dorado', icon: '⭐', precio: '$5,500' }
+            ],
+            mujer: [
+                { code: 'M001', name: 'Elegante Rosa', icon: '💄', precio: '$4,100' },
+                { code: 'M002', name: 'Cat Eye Negro', icon: '😎', precio: '$4,800' },
+                { code: 'M003', name: 'Redondo Vintage', icon: '🎀', precio: '$3,900' },
+                { code: 'M004', name: 'Mariposa Azul', icon: '🦋', precio: '$5,200' },
+                { code: 'M005', name: 'Delicado Dorado', icon: '✨', precio: '$6,000' },
+                { code: 'M006', name: 'Oversized Chic', icon: '👑', precio: '$5,800' }
+            ],
+            deportivo: [
+                { code: 'D001', name: 'Running Negro', icon: '🏃', precio: '$2,600' },
+                { code: 'D002', name: 'Ciclismo Azul', icon: '🚴', precio: '$3,200' },
+                { code: 'D003', name: 'Gym Gris', icon: '💪', precio: '$2,400' },
+                { code: 'D004', name: 'Outdoor Verde', icon: '🏔️', precio: '$3,500' }
+            ],
+            niños: [
+                { code: 'N001', name: 'Superhéroe Azul', icon: '🦸', precio: '$1,800' },
+                { code: 'N002', name: 'Princesa Rosa', icon: '👸', precio: '$1,900' },
+                { code: 'N003', name: 'Aventura Verde', icon: '🌟', precio: '$1,700' },
+                { code: 'N004', name: 'Flexible Rojo', icon: '🎈', precio: '$2,100' }
+            ]
+        };
+
+        function showMonturas(categoria) {
+            document.getElementById('categories').style.display = 'none';
+            const monturasGrid = document.getElementById('monturas');
+            monturasGrid.style.display = 'grid';
+            
+            // Limpiar monturas anteriores
+            const existingMonturas = monturasGrid.querySelectorAll('.montura-card');
+            existingMonturas.forEach(card => card.remove());
+            
+            // Agregar monturas de la categoría
+            monturas[categoria].forEach(montura => {
+                const card = document.createElement('div');
+                card.className = 'montura-card';
+                card.innerHTML = `
+                    <div class="montura-gratis">${montura.precio}</div>
+                    <div class="montura-image">${montura.icon}</div>
+                    <div class="montura-code">${montura.code}</div>
+                    <button class="select-btn" onclick="selectMontura('${montura.code}', '${montura.name}', '${montura.icon}', '${montura.precio}')">
+                        ✅ Esta Quiero
+                    </button>
+                `;
+                monturasGrid.appendChild(card);
+            });
+        }
+
+        function showCategories() {
+            document.getElementById('monturas').style.display = 'none';
+            document.getElementById('categories').style.display = 'grid';
+        }
+
+        function selectMontura(code, name, icon, precio) {
+            const mensaje = `🥽 *Quiero esta montura - Urbana Visión*
+
+📋 *Código:* ${code} ${icon}
+💰 *Precio montura:* ${precio}
+
+💎 *Precios cristales:*
+👓 Monofocales: $2,500
+🔍 Bifocales: $4,500  
+🔄 Progresivos: $8,500
+✨ Anti-reflejo: +$1,000
+🌞 Transition: +$2,000
+💻 Blue Light: +$1,500
+
+🎁 *6 meses garantía • Examen gratis*`;
+
+            const whatsappUrl = `https://wa.me/18097135307?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
