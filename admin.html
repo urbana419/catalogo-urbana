@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Urbana Visión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3b82f6, #f97316);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .logo::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 6px #3b82f6;
+        }
+        
+        h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .form-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #60a5fa;
+        }
+        
+        .photo-upload {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #60a5fa;
+            border-radius: 10px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .photo-preview:hover {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        
+        .photo-preview.has-image {
+            border-style: solid;
+        }
+        
+        .photo-text {
+            font-size: 12px;
+            color: #60a5fa;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: #d1d5db;
+            margin-bottom: 5px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 14px;
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #60a5fa;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 14px;
+        }
+        
+        .form-select option {
+            background: #374151;
+            color: white;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #059669;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .whatsapp-result {
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid #25d366;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .whatsapp-result h4 {
+            color: #25d366;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .whatsapp-message {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+        
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: inline-block;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #20c05c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo"></div>
+            <h1>Panel Admin</h1>
+            <p class="subtitle">Urbana Visión - Gestión de Monturas</p>
+        </div>
+        
+        <!-- Form -->
+        <div class="form-card">
+            <div class="form-title">📷 Subir Nueva Montura</div>
+            
+            <div id="successMessage" class="success-message">
+                ✅ Datos preparados para WhatsApp
+            </div>
+            
+            <div class="photo-upload">
+                <div class="photo-preview" id="photoPreview" onclick="document.getElementById('photoInput').click()">
+                    <div class="photo-text">
+                        📷<br>Tomar Foto<br><small>Toca aquí</small>
+                    </div>
+                </div>
+                <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Código de Montura</label>
+                <input type="text" class="form-input" id="codigo" placeholder="Ej: H001, M002, D003" maxlength="4">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Categoría</label>
+                <select class="form-select" id="categoria">
+                    <option value="">Seleccionar categoría</option>
+                    <option value="hombre">👨 Hombres</option>
+                    <option value="mujer">👩 Mujeres</option>
+                    <option value="deportivo">🏃 Deportivos</option>
+                    <option value="niños">👶 Niños</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Precio</label>
+                <input type="text" class="form-input" id="precio" placeholder="Ej: $2,500" maxlength="10">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Nombre (Opcional)</label>
+                <input type="text" class="form-input" id="nombre" placeholder="Ej: Elegante Negro" maxlength="30">
+            </div>
+            
+            <button class="btn btn-primary" onclick="generarWhatsApp()">
+                📱 Generar para WhatsApp
+            </button>
+            
+            <button class="btn btn-secondary" onclick="verCatalogo()">
+                👁️ Ver Catálogo Cliente
+            </button>
+            
+            <!-- Resultado WhatsApp -->
+            <div id="whatsappResult" class="whatsapp-result">
+                <h4>📱 Mensaje listo para WhatsApp:</h4>
+                <div id="whatsappMessage" class="whatsapp-message"></div>
+                <a href="#" id="whatsappLink" class="btn-whatsapp" target="_blank">
+                    Enviar por WhatsApp
+                </a>
+            </div>
+        </div>
+        
+        <!-- Instrucciones -->
+        <div class="form-card">
+            <div class="form-title">📋 Instrucciones</div>
+            <div style="font-size: 12px; line-height: 1.5; opacity: 0.9;">
+                <p style="margin-bottom: 10px;"><strong>1.</strong> Toma foto de la montura</p>
+                <p style="margin-bottom: 10px;"><strong>2.</strong> Completa todos los campos</p>
+                <p style="margin-bottom: 10px;"><strong>3.</strong> Presiona "Generar para WhatsApp"</p>
+                <p style="margin-bottom: 10px;"><strong>4.</strong> Envía el mensaje por WhatsApp</p>
+                <p style="margin-bottom: 10px;"><strong>5.</strong> La foto se incluirá automáticamente</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPhoto = null;
+        
+        // Manejar selección de foto
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedPhoto = e.target.result;
+                    const preview = document.getElementById('photoPreview');
+                    preview.style.backgroundImage = `url(${selectedPhoto})`;
+                    preview.classList.add('has-image');
+                    preview.innerHTML = '<div class="photo-text" style="background: rgba(0,0,0,0.7); padding: 5px; border-radius: 5px; color: white;">✅ Foto Lista</div>';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function generarWhatsApp() {
+            const codigo = document.getElementById('codigo').value.trim().toUpperCase();
+            const categoria = document.getElementById('categoria').value;
+            const precio = document.getElementById('precio').value.trim();
+            const nombre = document.getElementById('nombre').value.trim();
+            
+            // Validaciones
+            if (!selectedPhoto) {
+                alert('Por favor toma una foto de la montura');
+                return;
+            }
+            
+            if (!codigo) {
+                alert('Por favor ingresa el código de la montura');
+                return;
+            }
+            
+            if (!categoria) {
+                alert('Por favor selecciona una categoría');
+                return;
+            }
+            
+            if (!precio) {
+                alert('Por favor ingresa el precio');
+                return;
+            }
+            
+            // Generar mensaje
+            const nombreCategoria = {
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños'
+            }[categoria];
+            
+            const mensaje = `🥽 *NUEVA MONTURA - Urbana Visión*
+
+📋 *Código:* ${codigo}
+👤 *Categoría:* ${nombreCategoria}
+💰 *Precio:* ${precio}
+${nombre ? `📝 *Nombre:* ${nombre}` : ''}
+
+📷 *Foto adjunta*
+
+🏥 *Urbana Visión*
+📱 809-713-5307
+🎁 6 meses garantía`;
+            
+            // Mostrar resultado
+            document.getElementById('whatsappMessage').textContent = mensaje;
+            
+            // Generar link de WhatsApp
+            const whatsappUrl = `https://wa.me/18097135307?text=${encodeURIComponent(mensaje)}`;
+            document.getElementById('whatsappLink').href = whatsappUrl;
+            
+            // Mostrar resultado
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('whatsappResult').style.display = 'block';
+            
+            // Ocultar mensaje de éxito después de 3 segundos
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 3000);
+        }
+        
+        function verCatalogo() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
