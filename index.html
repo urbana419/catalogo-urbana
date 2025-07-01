@@ -270,7 +270,6 @@
             margin-bottom: 8px;
         }
 
-        /* Vista individual de montura */
         .montura-individual {
             display: none;
             background: white;
@@ -334,14 +333,12 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo"></div>
             <h1>Monturas</h1>
             <p class="subtitle">Urbana Visión - Catálogo</p>
         </div>
         
-        <!-- Vista Individual de Montura -->
         <div id="monturaIndividual" class="montura-individual">
             <div id="monturaFotoGrande" class="montura-foto-grande">
                 <div>📷</div>
@@ -352,12 +349,11 @@
                 <div id="monturaNombreGrande" style="color: #6b7280; margin-bottom: 15px;"></div>
             </div>
             <button id="btnQuieroGrande" class="btn-quiero-grande">
-                ✅ ¡Esta Quiero!
+                ✅ ¡Esta Quiero! (Enviar a Urbana Visión)
             </button>
             <button class="back-btn" onclick="showCategories()">← Ver Todas las Monturas</button>
         </div>
         
-        <!-- Categorías -->
         <div id="categories" class="categories">
             <div class="category-card" onclick="showMonturas('hombre')">
                 <div class="category-icon">👨</div>
@@ -384,12 +380,10 @@
             </div>
         </div>
         
-        <!-- Grid de Monturas -->
         <div id="monturas" class="monturas-grid">
             <button class="back-btn" onclick="showCategories()">← Volver</button>
         </div>
         
-        <!-- Precios -->
         <div class="precios-info">
             <div class="precios-title">💎 Precios de Cristales</div>
             <div class="precio-item">
@@ -418,7 +412,6 @@
             </div>
         </div>
         
-        <!-- Contacto -->
         <div class="contact-info">
             <h4>🏥 Urbana Visión</h4>
             <p style="color: #1e40af; margin-bottom: 10px;">
@@ -438,11 +431,9 @@
     <script>
         let monturas = {};
 
-        // Cargar monturas desde localStorage o usar datos de ejemplo
         document.addEventListener('DOMContentLoaded', function() {
             cargarMonturasDesdeStorage();
             
-            // Verificar si se accede con código específico
             const urlParams = new URLSearchParams(window.location.search);
             const codigo = urlParams.get('codigo');
             if (codigo) {
@@ -455,7 +446,6 @@
                 const monturasGuardadas = JSON.parse(localStorage.getItem('monturas') || '{}');
                 
                 if (Object.keys(monturasGuardadas).length === 0) {
-                    // Datos de ejemplo si no hay monturas guardadas
                     monturas = {
                         hombre: [
                             { code: 'H001', name: 'Ejecutivo Negro', icon: '🕴️', precio: '$3,800', foto: null },
@@ -473,11 +463,10 @@
                         ]
                     };
                 } else {
-                    // Organizar monturas por categoría
                     monturas = { hombre: [], mujer: [], deportivo: [], niños: [] };
                     
                     Object.values(monturasGuardadas).forEach(montura => {
-                        if (monturas[montura.categoria]) {
+                        if (montura && montura.categoria && monturas[montura.categoria]) {
                             monturas[montura.categoria].push({
                                 code: montura.codigo,
                                 name: montura.nombre || 'Sin nombre',
@@ -490,7 +479,6 @@
                 }
             } catch(error) {
                 console.error('Error cargando monturas:', error);
-                // Datos de respaldo
                 monturas = {
                     hombre: [{ code: 'H001', name: 'Ejemplo', icon: '👨', precio: '$2,500', foto: null }],
                     mujer: [{ code: 'M001', name: 'Ejemplo', icon: '👩', precio: '$3,000', foto: null }],
@@ -511,18 +499,16 @@
         }
 
         function showMonturaIndividual(codigo) {
-            // Buscar la montura por código en todas las categorías
             let monturaEncontrada = null;
             
             for (let categoria in monturas) {
-                const montura = monturas[categoria].find(m => m.code === codigo);
+                const montura = monturas[categoria].find(m => m && m.code === codigo);
                 if (montura) {
                     monturaEncontrada = montura;
                     break;
                 }
             }
 
-            // Si no está en monturas organizadas, buscar en localStorage directo
             if (!monturaEncontrada) {
                 try {
                     const monturasGuardadas = JSON.parse(localStorage.getItem('monturas') || '{}');
@@ -542,17 +528,14 @@
             }
 
             if (monturaEncontrada) {
-                // Mostrar vista individual
                 document.getElementById('categories').style.display = 'none';
                 document.getElementById('monturas').style.display = 'none';
                 document.getElementById('monturaIndividual').style.display = 'block';
 
-                // Llenar datos
                 document.getElementById('monturaCodigoGrande').textContent = monturaEncontrada.code;
                 document.getElementById('monturaPrecioGrande').textContent = monturaEncontrada.precio;
                 document.getElementById('monturaNombreGrande').textContent = monturaEncontrada.name;
 
-                // Mostrar foto o ícono
                 const fotoGrande = document.getElementById('monturaFotoGrande');
                 if (monturaEncontrada.foto) {
                     fotoGrande.style.backgroundImage = `url(${monturaEncontrada.foto})`;
@@ -564,12 +547,10 @@
                     fotoGrande.innerHTML = `<div>${monturaEncontrada.icon}</div>`;
                 }
 
-                // Configurar botón de WhatsApp
                 document.getElementById('btnQuieroGrande').onclick = function() {
                     selectMontura(monturaEncontrada.code, monturaEncontrada.name, monturaEncontrada.icon, monturaEncontrada.precio);
                 };
             } else {
-                // Montura no encontrada, mostrar categorías
                 showCategories();
             }
         }
@@ -580,11 +561,9 @@
             const monturasGrid = document.getElementById('monturas');
             monturasGrid.style.display = 'grid';
             
-            // Limpiar monturas anteriores
             const existingMonturas = monturasGrid.querySelectorAll('.montura-card');
             existingMonturas.forEach(card => card.remove());
             
-            // Verificar si hay monturas en esta categoría
             if (!monturas[categoria] || monturas[categoria].length === 0) {
                 const emptyCard = document.createElement('div');
                 emptyCard.style.gridColumn = '1 / -1';
@@ -600,12 +579,12 @@
                 return;
             }
             
-            // Agregar monturas de la categoría
             monturas[categoria].forEach(montura => {
+                if (!montura) return;
+                
                 const card = document.createElement('div');
                 card.className = 'montura-card';
                 
-                // Usar foto real o ícono de respaldo
                 const imagenDisplay = montura.foto 
                     ? `<img src="${montura.foto}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 10px;">`
                     : `<div style="font-size: 30px; color: #6b7280;">${montura.icon}</div>`;
@@ -627,7 +606,6 @@
             document.getElementById('monturaIndividual').style.display = 'none';
             document.getElementById('categories').style.display = 'grid';
             
-            // Limpiar URL
             if (window.location.search) {
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
