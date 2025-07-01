@@ -234,6 +234,7 @@
             border-radius: 6px;
             font-size: 12px;
             display: inline-block;
+            margin: 5px;
         }
         
         .btn-whatsapp:hover {
@@ -261,6 +262,86 @@
             word-break: break-all;
             font-family: monospace;
         }
+
+        .monturas-lista {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .montura-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .montura-info {
+            flex: 1;
+        }
+
+        .montura-codigo {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .montura-detalles {
+            font-size: 11px;
+            color: #d1d5db;
+        }
+
+        .montura-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 11px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-ver {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-eliminar {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-eliminar:hover {
+            background: #dc2626;
+        }
+
+        .whatsapp-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .copy-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .copy-btn:hover {
+            background: #4b5563;
+        }
     </style>
 </head>
 <body>
@@ -277,7 +358,7 @@
             <div class="form-title">📷 Subir Nueva Montura</div>
             
             <div id="successMessage" class="success-message">
-                ✅ Montura guardada en catálogo y lista para WhatsApp
+                ✅ Montura guardada en catálogo y lista para compartir
             </div>
             
             <div class="photo-upload">
@@ -315,56 +396,72 @@
                 <input type="text" class="form-input" id="nombre" placeholder="Ej: Elegante Negro" maxlength="30">
             </div>
             
-            <button class="btn btn-primary" onclick="guardarYGenerarWhatsApp()">
-                💾 Guardar en Catálogo y Generar WhatsApp
+            <button class="btn btn-primary" onclick="guardarYGenerarEnlace()">
+                💾 Guardar en Catálogo
             </button>
             
             <button class="btn btn-secondary" onclick="verCatalogo()">
                 👁️ Ver Catálogo Cliente
             </button>
             
-            <!-- Resultado WhatsApp -->
+            <!-- Resultado -->
             <div id="whatsappResult" class="whatsapp-result">
-                <h4>📱 Mensaje listo para WhatsApp:</h4>
+                <h4>🔗 Enlace generado y opciones para compartir:</h4>
                 
                 <div class="enlace-catalogo">
-                    <strong>🔗 Enlace directo al catálogo:</strong>
+                    <strong>📱 Enlace directo:</strong>
                     <div id="enlaceCatalogo" class="enlace-url"></div>
+                    <button class="copy-btn" onclick="copiarEnlace()">📋 Copiar Enlace</button>
                 </div>
                 
                 <div id="whatsappMessage" class="whatsapp-message"></div>
+                
+                <div class="whatsapp-options">
+                    <button class="copy-btn" onclick="copiarMensaje()">📋 Copiar Mensaje</button>
+                    <input type="tel" id="numeroWhatsApp" placeholder="Ej: 8091234567" style="padding: 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; font-size: 11px;">
+                </div>
                 <a href="#" id="whatsappLink" class="btn-whatsapp" target="_blank">
-                    Enviar por WhatsApp
+                    📱 Enviar a Número Específico
                 </a>
+                
+                <p style="font-size: 10px; color: #d1d5db; text-align: center; margin-top: 10px;">
+                    💡 Copia el mensaje y envíalo manualmente a quien quieras
+                </p>
             </div>
         </div>
         
-        <!-- Instrucciones -->
-        <div class="form-card">
-            <div class="form-title">📋 Instrucciones Mejoradas</div>
-            <div style="font-size: 12px; line-height: 1.5; opacity: 0.9;">
-                <p style="margin-bottom: 10px;"><strong>1.</strong> Toma foto de la montura</p>
-                <p style="margin-bottom: 10px;"><strong>2.</strong> Completa todos los campos</p>
-                <p style="margin-bottom: 10px;"><strong>3.</strong> Presiona "Guardar en Catálogo"</p>
-                <p style="margin-bottom: 10px;"><strong>4.</strong> Se genera automáticamente un enlace</p>
-                <p style="margin-bottom: 10px;"><strong>5.</strong> Envía el mensaje por WhatsApp</p>
-                <p style="margin-bottom: 10px;"><strong>6.</strong> ¡Los clientes verán la foto en el enlace!</p>
-            </div>
-        </div>
-
         <!-- Monturas guardadas -->
         <div class="form-card">
             <div class="form-title">📋 Monturas en Catálogo</div>
-            <div id="monturasGuardadas" style="font-size: 12px; max-height: 200px; overflow-y: auto;">
+            <div id="monturasGuardadas" class="monturas-lista">
                 <div style="text-align: center; color: #6b7280; padding: 20px;">
                     Cargando monturas...
                 </div>
+            </div>
+        </div>
+
+        <!-- Instrucciones -->
+        <div class="form-card">
+            <div class="form-title">📋 Cómo Funciona</div>
+            <div style="font-size: 12px; line-height: 1.5; opacity: 0.9;">
+                <p style="margin-bottom: 8px;"><strong>📤 Para enviar a clientes:</strong></p>
+                <p style="margin-bottom: 10px;">• Copia el mensaje y envíalo por WhatsApp manualmente</p>
+                <p style="margin-bottom: 10px;">• O ingresa número específico para envío directo</p>
+                
+                <p style="margin-bottom: 8px;"><strong>👥 Cuando clientes ven el enlace:</strong></p>
+                <p style="margin-bottom: 10px;">• Ven la foto grande de la montura</p>
+                <p style="margin-bottom: 10px;">• "Esta Quiero" envía mensaje a Urbana Visión (correcto)</p>
+                
+                <p style="margin-bottom: 8px;"><strong>🗑️ Para eliminar monturas:</strong></p>
+                <p style="margin-bottom: 10px;">• Usa el botón "Eliminar" en la lista de abajo</p>
             </div>
         </div>
     </div>
 
     <script>
         let selectedPhoto = null;
+        let currentMessage = '';
+        let currentLink = '';
         
         // Cargar lista de monturas al iniciar
         document.addEventListener('DOMContentLoaded', function() {
@@ -386,8 +483,16 @@
                 reader.readAsDataURL(file);
             }
         });
+
+        // Actualizar enlace de WhatsApp cuando cambia el número
+        const numeroInput = document.getElementById('numeroWhatsApp');
+        if (numeroInput) {
+            numeroInput.addEventListener('input', function(e) {
+                actualizarEnlaceWhatsApp();
+            });
+        }
         
-        function guardarYGenerarWhatsApp() {
+        function guardarYGenerarEnlace() {
             const codigo = document.getElementById('codigo').value.trim().toUpperCase();
             const categoria = document.getElementById('categoria').value;
             const precio = document.getElementById('precio').value.trim();
@@ -432,9 +537,13 @@
                 // Generar enlace al catálogo
                 const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
                 const enlaceCatalogo = `${baseUrl}?codigo=${codigo}`;
+                currentLink = enlaceCatalogo;
                 
                 // Mostrar enlace generado
-                document.getElementById('enlaceCatalogo').textContent = enlaceCatalogo;
+                const enlaceElement = document.getElementById('enlaceCatalogo');
+                if (enlaceElement) {
+                    enlaceElement.textContent = enlaceCatalogo;
+                }
                 
                 // Generar mensaje para WhatsApp
                 const nombreCategoria = {
@@ -458,16 +567,26 @@ ${enlaceCatalogo}
 📱 809-713-5307
 🎁 6 meses garantía`;
                 
-                // Mostrar resultado
-                document.getElementById('whatsappMessage').textContent = mensaje;
-                
-                // Generar link de WhatsApp
-                const whatsappUrl = `https://wa.me/18097135307?text=${encodeURIComponent(mensaje)}`;
-                document.getElementById('whatsappLink').href = whatsappUrl;
+                currentMessage = mensaje;
                 
                 // Mostrar resultado
-                document.getElementById('successMessage').style.display = 'block';
-                document.getElementById('whatsappResult').style.display = 'block';
+                const messageElement = document.getElementById('whatsappMessage');
+                if (messageElement) {
+                    messageElement.textContent = mensaje;
+                }
+                
+                const successElement = document.getElementById('successMessage');
+                if (successElement) {
+                    successElement.style.display = 'block';
+                }
+                
+                const resultElement = document.getElementById('whatsappResult');
+                if (resultElement) {
+                    resultElement.style.display = 'block';
+                }
+                
+                // Actualizar enlace de WhatsApp
+                actualizarEnlaceWhatsApp();
                 
                 // Actualizar lista de monturas
                 mostrarMonturasGuardadas();
@@ -477,75 +596,7 @@ ${enlaceCatalogo}
                 
                 // Ocultar mensaje de éxito después de 3 segundos
                 setTimeout(() => {
-                    document.getElementById('successMessage').style.display = 'none';
-                }, 3000);
-                
-            } catch(error) {
-                console.error('Error guardando montura:', error);
-                alert('Error guardando la montura. Intenta de nuevo.');
-            }
-        }
-        
-        function limpiarFormulario() {
-            document.getElementById('codigo').value = '';
-            document.getElementById('categoria').value = '';
-            document.getElementById('precio').value = '';
-            document.getElementById('nombre').value = '';
-            
-            // Limpiar foto
-            selectedPhoto = null;
-            const preview = document.getElementById('photoPreview');
-            preview.style.backgroundImage = 'none';
-            preview.classList.remove('has-image');
-            preview.innerHTML = '<div class="photo-text">📷<br>Tomar Foto<br><small>Toca aquí</small></div>';
-        }
-        
-        function mostrarMonturasGuardadas() {
-            try {
-                const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
-                const container = document.getElementById('monturasGuardadas');
-                
-                if (Object.keys(monturas).length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>';
-                    return;
-                }
-                
-                let html = '';
-                Object.values(monturas).forEach(montura => {
-                    const nombreCategoria = {
-                        'hombre': '👨',
-                        'mujer': '👩', 
-                        'deportivo': '🏃',
-                        'niños': '👶'
-                    }[montura.categoria] || '👓';
-                    
-                    const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
-                    const enlaceMontura = `${baseUrl}?codigo=${montura.codigo}`;
-                    
-                    html += `
-                        <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <strong>${nombreCategoria} ${montura.codigo}</strong> - ${montura.precio}
-                                    <br><small style="color: #d1d5db;">${montura.nombre}</small>
-                                </div>
-                                <a href="${enlaceMontura}" target="_blank" style="background: #3b82f6; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 11px;">Ver</a>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                container.innerHTML = html;
-                
-            } catch(error) {
-                console.error('Error cargando monturas:', error);
-                document.getElementById('monturasGuardadas').innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">Error cargando monturas</div>';
-            }
-        }
-        
-        function verCatalogo() {
-            window.location.href = 'index.html';
-        }
-    </script>
-</body>
-</html>
+                    if (successElement) {
+                        successElement.style.display = 'none';
+                    }
+              
