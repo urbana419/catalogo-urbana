@@ -269,6 +269,67 @@
             font-weight: bold;
             margin-bottom: 8px;
         }
+
+        /* Vista individual de montura */
+        .montura-individual {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .montura-foto-grande {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            background: #f3f4f6;
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: #6b7280;
+        }
+
+        .montura-info {
+            margin-bottom: 20px;
+        }
+
+        .montura-codigo-grande {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .montura-precio-grande {
+            font-size: 20px;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 15px;
+        }
+
+        .btn-quiero-grande {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-quiero-grande:hover {
+            background: #059669;
+        }
     </style>
 </head>
 <body>
@@ -278,6 +339,22 @@
             <div class="logo"></div>
             <h1>Monturas</h1>
             <p class="subtitle">Urbana Visión - Catálogo</p>
+        </div>
+        
+        <!-- Vista Individual de Montura -->
+        <div id="monturaIndividual" class="montura-individual">
+            <div id="monturaFotoGrande" class="montura-foto-grande">
+                <div>📷</div>
+            </div>
+            <div class="montura-info">
+                <div id="monturaCodigoGrande" class="montura-codigo-grande">Código</div>
+                <div id="monturaPrecioGrande" class="montura-precio-grande">Precio</div>
+                <div id="monturaNombreGrande" style="color: #6b7280; margin-bottom: 15px;"></div>
+            </div>
+            <button id="btnQuieroGrande" class="btn-quiero-grande">
+                ✅ ¡Esta Quiero!
+            </button>
+            <button class="back-btn" onclick="showCategories()">← Ver Todas las Monturas</button>
         </div>
         
         <!-- Categorías -->
@@ -364,6 +441,13 @@
         // Cargar monturas desde localStorage o usar datos de ejemplo
         document.addEventListener('DOMContentLoaded', function() {
             cargarMonturasDesdeStorage();
+            
+            // Verificar si se accede con código específico
+            const urlParams = new URLSearchParams(window.location.search);
+            const codigo = urlParams.get('codigo');
+            if (codigo) {
+                showMonturaIndividual(codigo);
+            }
         });
 
         function cargarMonturasDesdeStorage() {
@@ -396,7 +480,7 @@
                         if (monturas[montura.categoria]) {
                             monturas[montura.categoria].push({
                                 code: montura.codigo,
-                                name: montura.nombre,
+                                name: montura.nombre || 'Sin nombre',
                                 precio: montura.precio,
                                 foto: montura.foto,
                                 icon: getIconByCategory(montura.categoria)
@@ -426,8 +510,73 @@
             return icons[categoria] || '👓';
         }
 
+        function showMonturaIndividual(codigo) {
+            // Buscar la montura por código en todas las categorías
+            let monturaEncontrada = null;
+            
+            for (let categoria in monturas) {
+                const montura = monturas[categoria].find(m => m.code === codigo);
+                if (montura) {
+                    monturaEncontrada = montura;
+                    break;
+                }
+            }
+
+            // Si no está en monturas organizadas, buscar en localStorage directo
+            if (!monturaEncontrada) {
+                try {
+                    const monturasGuardadas = JSON.parse(localStorage.getItem('monturas') || '{}');
+                    if (monturasGuardadas[codigo]) {
+                        const montura = monturasGuardadas[codigo];
+                        monturaEncontrada = {
+                            code: montura.codigo,
+                            name: montura.nombre || 'Sin nombre',
+                            precio: montura.precio,
+                            foto: montura.foto,
+                            icon: getIconByCategory(montura.categoria)
+                        };
+                    }
+                } catch(error) {
+                    console.error('Error buscando montura:', error);
+                }
+            }
+
+            if (monturaEncontrada) {
+                // Mostrar vista individual
+                document.getElementById('categories').style.display = 'none';
+                document.getElementById('monturas').style.display = 'none';
+                document.getElementById('monturaIndividual').style.display = 'block';
+
+                // Llenar datos
+                document.getElementById('monturaCodigoGrande').textContent = monturaEncontrada.code;
+                document.getElementById('monturaPrecioGrande').textContent = monturaEncontrada.precio;
+                document.getElementById('monturaNombreGrande').textContent = monturaEncontrada.name;
+
+                // Mostrar foto o ícono
+                const fotoGrande = document.getElementById('monturaFotoGrande');
+                if (monturaEncontrada.foto) {
+                    fotoGrande.style.backgroundImage = `url(${monturaEncontrada.foto})`;
+                    fotoGrande.style.backgroundSize = 'cover';
+                    fotoGrande.style.backgroundPosition = 'center';
+                    fotoGrande.innerHTML = '';
+                } else {
+                    fotoGrande.style.backgroundImage = 'none';
+                    fotoGrande.innerHTML = `<div>${monturaEncontrada.icon}</div>`;
+                }
+
+                // Configurar botón de WhatsApp
+                document.getElementById('btnQuieroGrande').onclick = function() {
+                    selectMontura(monturaEncontrada.code, monturaEncontrada.name, monturaEncontrada.icon, monturaEncontrada.precio);
+                };
+            } else {
+                // Montura no encontrada, mostrar categorías
+                showCategories();
+            }
+        }
+
         function showMonturas(categoria) {
             document.getElementById('categories').style.display = 'none';
+            document.getElementById('monturaIndividual').style.display = 'none';
             const monturasGrid = document.getElementById('monturas');
             monturasGrid.style.display = 'grid';
             
@@ -475,7 +624,13 @@
 
         function showCategories() {
             document.getElementById('monturas').style.display = 'none';
+            document.getElementById('monturaIndividual').style.display = 'none';
             document.getElementById('categories').style.display = 'grid';
+            
+            // Limpiar URL
+            if (window.location.search) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         }
 
         function selectMontura(code, name, icon, precio) {
