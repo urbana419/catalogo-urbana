@@ -410,7 +410,7 @@
                 </div>
                 
                 <div class="nota-importante">
-                    💡 <strong>Para enviar:</strong> Copia el mensaje y envíalo manualmente por WhatsApp a tus clientes. La imagen se mostrará en cualquier dispositivo.
+                    💡 <strong>Para enviar:</strong> Copia el mensaje y envíalo manualmente por WhatsApp. La imagen se mostrará en cualquier dispositivo.
                 </div>
             </div>
         </div>
@@ -430,11 +430,11 @@
         let currentMessage = '';
         let currentLink = '';
         
-        // CONFIGURACIÓN - Cambia estos valores por los tuyos
+        // CONFIGURACIÓN CON TUS DATOS
         const GITHUB_CONFIG = {
-            username: 'tu-usuario-github',
+            username: 'urbana419',
             repo: 'catalogo-urbana',
-            token: 'tu-github-token', // Crear en Settings > Developer Settings > Personal Access Tokens
+            token: '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',
             branch: 'main'
         };
         
@@ -546,14 +546,11 @@
             }
             
             try {
-                // Mostrar progreso
                 document.getElementById('uploadProgress').style.display = 'block';
                 
-                // Subir imagen a GitHub
                 const filename = `${codigo.toLowerCase()}.jpg`;
                 const imageUrl = await uploadToGitHub(selectedPhoto, filename);
                 
-                // Guardar datos (solo URLs, no imágenes grandes)
                 const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
                 
                 monturas[codigo] = {
@@ -561,7 +558,7 @@
                     categoria: categoria,
                     precio: precio,
                     nombre: nombre || 'Sin nombre',
-                    foto: imageUrl, // URL de GitHub, no base64
+                    foto: imageUrl,
                     fechaCreacion: new Date().toISOString()
                 };
                 
@@ -571,4 +568,142 @@
                 const enlaceCatalogo = `${baseUrl}?codigo=${codigo}`;
                 currentLink = enlaceCatalogo;
                 
-                document.getElementById('enlaceCatalogo').tex
+                document.getElementById('enlaceCatalogo').textContent = enlaceCatalogo;
+                
+                const nombreCategoria = {
+                    'hombre': '👨 Hombres',
+                    'mujer': '👩 Mujeres', 
+                    'deportivo': '🏃 Deportivos',
+                    'niños': '👶 Niños'
+                }[categoria];
+                
+                const mensaje = `🥽 *NUEVA MONTURA - Urbana Visión*
+
+📋 *Código:* ${codigo}
+👤 *Categoría:* ${nombreCategoria}
+💰 *Precio:* ${precio}
+${nombre ? `📝 *Nombre:* ${nombre}` : ''}
+
+📱 *VER FOTO EN CATÁLOGO:*
+${enlaceCatalogo}
+
+🏥 *Urbana Visión*
+📱 809-713-5307
+🎁 6 meses garantía`;
+                
+                currentMessage = mensaje;
+                
+                document.getElementById('mensajePlantilla').textContent = mensaje;
+                document.getElementById('uploadProgress').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('enlaceResult').style.display = 'block';
+                
+                mostrarMonturasGuardadas();
+                limpiarFormulario();
+                
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+                
+            } catch(error) {
+                document.getElementById('uploadProgress').style.display = 'none';
+                alert('Error subiendo imagen: ' + error.message);
+            }
+        }
+
+        function copiarEnlace() {
+            navigator.clipboard.writeText(currentLink).then(() => {
+                alert('📋 Enlace copiado');
+            }).catch(() => {
+                alert('Copia manualmente el enlace');
+            });
+        }
+
+        function copiarMensaje() {
+            navigator.clipboard.writeText(currentMessage).then(() => {
+                alert('📋 Mensaje copiado');
+            }).catch(() => {
+                alert('Copia manualmente el mensaje');
+            });
+        }
+        
+        function limpiarFormulario() {
+            document.getElementById('codigo').value = '';
+            document.getElementById('categoria').value = '';
+            document.getElementById('precio').value = '';
+            document.getElementById('nombre').value = '';
+            
+            selectedPhoto = null;
+            const preview = document.getElementById('photoPreview');
+            preview.style.backgroundImage = 'none';
+            preview.classList.remove('has-image');
+            preview.innerHTML = '<div class="photo-text">📷<br>Tomar Foto<br><small>Toca aquí</small></div>';
+        }
+
+        function eliminarMontura(codigo) {
+            if (confirm(`¿Eliminar montura ${codigo}?`)) {
+                try {
+                    const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
+                    delete monturas[codigo];
+                    localStorage.setItem('monturas', JSON.stringify(monturas));
+                    mostrarMonturasGuardadas();
+                    alert(`✅ Montura ${codigo} eliminada`);
+                } catch(error) {
+                    alert('Error eliminando');
+                }
+            }
+        }
+        
+        function mostrarMonturasGuardadas() {
+            const container = document.getElementById('monturasGuardadas');
+            
+            try {
+                const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
+                
+                if (Object.keys(monturas).length === 0) {
+                    container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>';
+                    return;
+                }
+                
+                let html = '';
+                for (const codigo in monturas) {
+                    const montura = monturas[codigo];
+                    if (!montura) continue;
+                    
+                    const nombreCategoria = {
+                        'hombre': '👨',
+                        'mujer': '👩', 
+                        'deportivo': '🏃',
+                        'niños': '👶'
+                    }[montura.categoria] || '👓';
+                    
+                    const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+                    const enlaceMontura = `${baseUrl}?codigo=${codigo}`;
+                    
+                    html += `
+                        <div class="montura-item">
+                            <div class="montura-info">
+                                <div class="montura-codigo">${nombreCategoria} ${codigo} - ${montura.precio}</div>
+                                <div class="montura-detalles">${montura.nombre || 'Sin nombre'}</div>
+                            </div>
+                            <div class="montura-actions">
+                                <a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a>
+                                <button onclick="eliminarMontura('${codigo}')" class="btn-small btn-eliminar">Eliminar</button>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                container.innerHTML = html;
+                
+            } catch(error) {
+                container.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">Error cargando</div>';
+            }
+        }
+        
+        function verCatalogo() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
