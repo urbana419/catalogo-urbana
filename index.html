@@ -350,41 +350,81 @@
             <a href="https://wa.me/18097135307?text=Hola Urbana Visión, quiero información sobre monturas" class="whatsapp-btn">
                 📱 WhatsApp: 809-713-5307
             </a>
+            <div style="margin-top: 15px;">
+                <a href="admin.html" style="color: #6b7280; font-size: 12px; text-decoration: none;">
+                    🔧 Panel Admin
+                </a>
+            </div>
         </div>
     </div>
 
     <script>
-        // Base de datos de monturas (puedes agregar más fácilmente)
-        const monturas = {
-            hombre: [
-                { code: 'H001', name: 'Ejecutivo Negro', icon: '🕴️', precio: '$3,800' },
-                { code: 'H002', name: 'Clásico Marrón', icon: '👔', precio: '$2,500' },
-                { code: 'H003', name: 'Moderno Azul', icon: '💼', precio: '$4,200' },
-                { code: 'H004', name: 'Deportivo Negro', icon: '🏃', precio: '$2,900' },
-                { code: 'H005', name: 'Casual Gris', icon: '👨', precio: '$2,300' },
-                { code: 'H006', name: 'Vintage Dorado', icon: '⭐', precio: '$5,500' }
-            ],
-            mujer: [
-                { code: 'M001', name: 'Elegante Rosa', icon: '💄', precio: '$4,100' },
-                { code: 'M002', name: 'Cat Eye Negro', icon: '😎', precio: '$4,800' },
-                { code: 'M003', name: 'Redondo Vintage', icon: '🎀', precio: '$3,900' },
-                { code: 'M004', name: 'Mariposa Azul', icon: '🦋', precio: '$5,200' },
-                { code: 'M005', name: 'Delicado Dorado', icon: '✨', precio: '$6,000' },
-                { code: 'M006', name: 'Oversized Chic', icon: '👑', precio: '$5,800' }
-            ],
-            deportivo: [
-                { code: 'D001', name: 'Running Negro', icon: '🏃', precio: '$2,600' },
-                { code: 'D002', name: 'Ciclismo Azul', icon: '🚴', precio: '$3,200' },
-                { code: 'D003', name: 'Gym Gris', icon: '💪', precio: '$2,400' },
-                { code: 'D004', name: 'Outdoor Verde', icon: '🏔️', precio: '$3,500' }
-            ],
-            niños: [
-                { code: 'N001', name: 'Superhéroe Azul', icon: '🦸', precio: '$1,800' },
-                { code: 'N002', name: 'Princesa Rosa', icon: '👸', precio: '$1,900' },
-                { code: 'N003', name: 'Aventura Verde', icon: '🌟', precio: '$1,700' },
-                { code: 'N004', name: 'Flexible Rojo', icon: '🎈', precio: '$2,100' }
-            ]
-        };
+        let monturas = {};
+
+        // Cargar monturas desde localStorage o usar datos de ejemplo
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarMonturasDesdeStorage();
+        });
+
+        function cargarMonturasDesdeStorage() {
+            try {
+                const monturasGuardadas = JSON.parse(localStorage.getItem('monturas') || '{}');
+                
+                if (Object.keys(monturasGuardadas).length === 0) {
+                    // Datos de ejemplo si no hay monturas guardadas
+                    monturas = {
+                        hombre: [
+                            { code: 'H001', name: 'Ejecutivo Negro', icon: '🕴️', precio: '$3,800', foto: null },
+                            { code: 'H002', name: 'Clásico Marrón', icon: '👔', precio: '$2,500', foto: null }
+                        ],
+                        mujer: [
+                            { code: 'M001', name: 'Elegante Rosa', icon: '💄', precio: '$4,100', foto: null },
+                            { code: 'M002', name: 'Cat Eye Negro', icon: '😎', precio: '$4,800', foto: null }
+                        ],
+                        deportivo: [
+                            { code: 'D001', name: 'Running Negro', icon: '🏃', precio: '$2,600', foto: null }
+                        ],
+                        niños: [
+                            { code: 'N001', name: 'Superhéroe Azul', icon: '🦸', precio: '$1,800', foto: null }
+                        ]
+                    };
+                } else {
+                    // Organizar monturas por categoría
+                    monturas = { hombre: [], mujer: [], deportivo: [], niños: [] };
+                    
+                    Object.values(monturasGuardadas).forEach(montura => {
+                        if (monturas[montura.categoria]) {
+                            monturas[montura.categoria].push({
+                                code: montura.codigo,
+                                name: montura.nombre,
+                                precio: montura.precio,
+                                foto: montura.foto,
+                                icon: getIconByCategory(montura.categoria)
+                            });
+                        }
+                    });
+                }
+            } catch(error) {
+                console.error('Error cargando monturas:', error);
+                // Datos de respaldo
+                monturas = {
+                    hombre: [{ code: 'H001', name: 'Ejemplo', icon: '👨', precio: '$2,500', foto: null }],
+                    mujer: [{ code: 'M001', name: 'Ejemplo', icon: '👩', precio: '$3,000', foto: null }],
+                    deportivo: [{ code: 'D001', name: 'Ejemplo', icon: '🏃', precio: '$2,800', foto: null }],
+                    niños: [{ code: 'N001', name: 'Ejemplo', icon: '👶', precio: '$1,800', foto: null }]
+                };
+            }
+        }
+
+        function getIconByCategory(categoria) {
+            const icons = {
+                'hombre': '👨',
+                'mujer': '👩', 
+                'deportivo': '🏃',
+                'niños': '👶'
+            };
+            return icons[categoria] || '👓';
+        }
 
         function showMonturas(categoria) {
             document.getElementById('categories').style.display = 'none';
@@ -395,13 +435,35 @@
             const existingMonturas = monturasGrid.querySelectorAll('.montura-card');
             existingMonturas.forEach(card => card.remove());
             
+            // Verificar si hay monturas en esta categoría
+            if (!monturas[categoria] || monturas[categoria].length === 0) {
+                const emptyCard = document.createElement('div');
+                emptyCard.style.gridColumn = '1 / -1';
+                emptyCard.style.textAlign = 'center';
+                emptyCard.style.padding = '40px 20px';
+                emptyCard.style.color = '#6b7280';
+                emptyCard.innerHTML = `
+                    <div style="font-size: 40px; margin-bottom: 10px;">📷</div>
+                    <div>No hay monturas en esta categoría aún.</div>
+                    <div style="font-size: 12px; margin-top: 10px;">El administrador agregará fotos pronto.</div>
+                `;
+                monturasGrid.appendChild(emptyCard);
+                return;
+            }
+            
             // Agregar monturas de la categoría
             monturas[categoria].forEach(montura => {
                 const card = document.createElement('div');
                 card.className = 'montura-card';
+                
+                // Usar foto real o ícono de respaldo
+                const imagenDisplay = montura.foto 
+                    ? `<img src="${montura.foto}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 10px;">`
+                    : `<div style="font-size: 30px; color: #6b7280;">${montura.icon}</div>`;
+                
                 card.innerHTML = `
                     <div class="montura-gratis">${montura.precio}</div>
-                    <div class="montura-image">${montura.icon}</div>
+                    <div class="montura-image">${imagenDisplay}</div>
                     <div class="montura-code">${montura.code}</div>
                     <button class="select-btn" onclick="selectMontura('${montura.code}', '${montura.name}', '${montura.icon}', '${montura.precio}')">
                         ✅ Esta Quiero
