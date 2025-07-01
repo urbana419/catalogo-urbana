@@ -319,6 +319,18 @@
             font-size: 11px;
             color: #f59e0b;
         }
+
+        .processing-message {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #60a5fa;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -334,6 +346,10 @@
             
             <div id="successMessage" class="success-message">
                 ✅ Montura guardada en catálogo
+            </div>
+
+            <div id="processingMessage" class="processing-message">
+                🔄 Comprimiendo imagen, espere...
             </div>
             
             <div class="photo-upload">
@@ -418,18 +434,54 @@
             mostrarMonturasGuardadas();
         });
         
-        document.getElementById('photoInput').addEventListener('change', function(e) {
+        // Función para comprimir imágenes
+        function compressImage(file, maxWidth = 800, quality = 0.7) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                img.onload = function() {
+                    // Calcular nuevo tamaño manteniendo proporción
+                    const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
+                    canvas.width = img.width * ratio;
+                    canvas.height = img.height * ratio;
+                    
+                    // Dibujar imagen redimensionada
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // Convertir a base64 comprimido
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(compressedDataUrl);
+                };
+                
+                img.src = URL.createObjectURL(file);
+            });
+        }
+        
+        document.getElementById('photoInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    selectedPhoto = e.target.result;
+                // Mostrar mensaje de procesamiento
+                document.getElementById('processingMessage').style.display = 'block';
+                
+                try {
+                    // Comprimir imagen
+                    const compressedImage = await compressImage(file, 600, 0.6);
+                    selectedPhoto = compressedImage;
+                    
                     const preview = document.getElementById('photoPreview');
                     preview.style.backgroundImage = `url(${selectedPhoto})`;
                     preview.classList.add('has-image');
                     preview.innerHTML = '<div class="photo-text" style="background: rgba(0,0,0,0.7); padding: 5px; border-radius: 5px; color: white;">✅ Foto Lista</div>';
-                };
-                reader.readAsDataURL(file);
+                    
+                    // Ocultar mensaje de procesamiento
+                    document.getElementById('processingMessage').style.display = 'none';
+                } catch (error) {
+                    console.error('Error comprimiendo imagen:', error);
+                    document.getElementById('processingMessage').style.display = 'none';
+                    alert('Error procesando la imagen. Intenta con otra foto.');
+                }
             }
         });
         
@@ -460,9 +512,11 @@
                     return;
                 }
                 
+                // Verificar espacio disponible
                 const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
                 
-                monturas[codigo] = {
+                // Crear objeto de montura
+                const nuevaMontura = {
                     codigo: codigo,
                     categoria: categoria,
                     precio: precio,
@@ -471,6 +525,16 @@
                     fechaCreacion: new Date().toISOString()
                 };
                 
+                // Verificar tamaño antes de guardar
+                const testData = JSON.stringify({...monturas, [codigo]: nuevaMontura});
+                
+                if (testData.length > 4500000) { // ~4.5MB límite seguro
+                    alert('🚨 Catálogo lleno. Elimina monturas antiguas antes de agregar nuevas.');
+                    return;
+                }
+                
+                // Guardar
+                monturas[codigo] = nuevaMontura;
                 localStorage.setItem('monturas', JSON.stringify(monturas));
                 
                 const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
@@ -506,106 +570,4 @@ ${enlaceCatalogo}
                 document.getElementById('successMessage').style.display = 'block';
                 document.getElementById('enlaceResult').style.display = 'block';
                 
-                mostrarMonturasGuardadas();
-                limpiarFormulario();
-                
-                setTimeout(() => {
-                    document.getElementById('successMessage').style.display = 'none';
-                }, 3000);
-                
-            } catch(error) {
-                console.error('Error:', error);
-                alert('Error guardando montura: ' + error.message);
-            }
-        }
-
-        function copiarEnlace() {
-            navigator.clipboard.writeText(currentLink).then(() => {
-                alert('📋 Enlace copiado');
-            }).catch(() => {
-                alert('Selecciona y copia el enlace manualmente');
-            });
-        }
-
-        function copiarMensaje() {
-            navigator.clipboard.writeText(currentMessage).then(() => {
-                alert('📋 Mensaje copiado - Envíalo por WhatsApp');
-            }).catch(() => {
-                alert('Selecciona y copia el mensaje manualmente');
-            });
-        }
-        
-        function limpiarFormulario() {
-            document.getElementById('codigo').value = '';
-            document.getElementById('categoria').value = '';
-            document.getElementById('precio').value = '';
-            document.getElementById('nombre').value = '';
-            
-            selectedPhoto = null;
-            const preview = document.getElementById('photoPreview');
-            preview.style.backgroundImage = 'none';
-            preview.classList.remove('has-image');
-            preview.innerHTML = '<div class="photo-text">📷<br>Tomar Foto<br><small>Toca aquí</small></div>';
-        }
-
-        function eliminarMontura(codigo) {
-            if (confirm(`¿Eliminar montura ${codigo}?`)) {
-                const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
-                delete monturas[codigo];
-                localStorage.setItem('monturas', JSON.stringify(monturas));
-                mostrarMonturasGuardadas();
-                alert(`✅ Montura ${codigo} eliminada`);
-            }
-        }
-        
-        function mostrarMonturasGuardadas() {
-            try {
-                const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
-                const container = document.getElementById('monturasGuardadas');
-                
-                if (Object.keys(monturas).length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>';
-                    return;
-                }
-                
-                let html = '';
-                Object.values(monturas).forEach(montura => {
-                    if (!montura.codigo) return;
-                    
-                    const nombreCategoria = {
-                        'hombre': '👨',
-                        'mujer': '👩', 
-                        'deportivo': '🏃',
-                        'niños': '👶'
-                    }[montura.categoria] || '👓';
-                    
-                    const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
-                    const enlaceMontura = `${baseUrl}?codigo=${montura.codigo}`;
-                    
-                    html += `
-                        <div class="montura-item">
-                            <div class="montura-info">
-                                <div class="montura-codigo">${nombreCategoria} ${montura.codigo} - ${montura.precio}</div>
-                                <div class="montura-detalles">${montura.nombre}</div>
-                            </div>
-                            <div class="montura-actions">
-                                <a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a>
-                                <button onclick="eliminarMontura('${montura.codigo}')" class="btn-small btn-eliminar">Eliminar</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                container.innerHTML = html;
-                
-            } catch(error) {
-                document.getElementById('monturasGuardadas').innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">Error cargando monturas</div>';
-            }
-        }
-        
-        function verCatalogo() {
-            window.location.href = 'index.html';
-        }
-    </script>
-</body>
-</html>
+                mostrar
