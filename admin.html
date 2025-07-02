@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,344 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Urbana Visión</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-            min-height: 100vh;
-            padding: 10px;
-            color: white;
-        }
-        
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .logo {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3b82f6, #f97316);
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .logo::before {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: inset 0 0 0 6px #3b82f6;
-        }
-        
-        h1 {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-        
-        .subtitle {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        .form-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .form-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-            color: #60a5fa;
-        }
-        
-        .photo-upload {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        
-        .photo-preview {
-            width: 150px;
-            height: 150px;
-            border: 2px dashed #60a5fa;
-            border-radius: 10px;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .photo-preview:hover {
-            border-color: #3b82f6;
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        
-        .photo-preview.has-image {
-            border-style: solid;
-        }
-        
-        .photo-text {
-            font-size: 12px;
-            color: #60a5fa;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-label {
-            display: block;
-            font-size: 12px;
-            color: #d1d5db;
-            margin-bottom: 5px;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-size: 14px;
-        }
-        
-        .form-input::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #60a5fa;
-            background: rgba(255,255,255,0.15);
-        }
-        
-        .form-select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-size: 14px;
-        }
-        
-        .form-select option {
-            background: #374151;
-            color: white;
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: #10b981;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #059669;
-        }
-        
-        .btn-secondary {
-            background: #6b7280;
-            color: white;
-            margin-top: 10px;
-        }
-        
-        .btn-secondary:hover {
-            background: #4b5563;
-        }
-        
-        .success-message {
-            background: #10b981;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .enlace-result {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid #3b82f6;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            display: none;
-        }
-        
-        .enlace-result h4 {
-            color: #60a5fa;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        
-        .enlace-url {
-            background: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            margin-bottom: 15px;
-            word-break: break-all;
-            font-family: monospace;
-        }
-        
-        .mensaje-plantilla {
-            background: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            margin-bottom: 15px;
-            white-space: pre-wrap;
-        }
-        
-        .copy-btn {
-            background: #6b7280;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
-            margin: 5px;
-            width: calc(50% - 5px);
-        }
-        
-        .copy-btn:hover {
-            background: #4b5563;
-        }
-
-        .monturas-lista {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .montura-item {
-            background: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .montura-info {
-            flex: 1;
-        }
-
-        .montura-codigo {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .montura-detalles {
-            font-size: 11px;
-            color: #d1d5db;
-        }
-
-        .montura-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .btn-small {
-            padding: 5px 10px;
-            font-size: 11px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-ver {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .btn-eliminar {
-            background: #ef4444;
-            color: white;
-        }
-
-        .btn-eliminar:hover {
-            background: #dc2626;
-        }
-
-        .nota-importante {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid #f59e0b;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 11px;
-            color: #f59e0b;
-        }
-
-        .upload-progress {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid #3b82f6;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            margin: 10px 0;
-            font-size: 12px;
-            color: #60a5fa;
-            display: none;
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #ef4444;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 12px;
-            display: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1f2937 0%, #374151 100%); min-height: 100vh; padding: 10px; color: white; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .header { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .logo { width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #f97316); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .logo::before { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; box-shadow: inset 0 0 0 6px #3b82f6; }
+        h1 { font-size: 20px; margin-bottom: 5px; }
+        .subtitle { font-size: 12px; opacity: 0.8; }
+        .form-card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .form-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #60a5fa; }
+        .photo-upload { text-align: center; margin-bottom: 15px; }
+        .photo-preview { width: 150px; height: 150px; border: 2px dashed #60a5fa; border-radius: 10px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; }
+        .photo-preview:hover { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.1); }
+        .photo-preview.has-image { border-style: solid; }
+        .photo-text { font-size: 12px; color: #60a5fa; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 12px; color: #d1d5db; margin-bottom: 5px; }
+        .form-input { width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; font-size: 14px; }
+        .form-input::placeholder { color: rgba(255,255,255,0.5); }
+        .form-input:focus { outline: none; border-color: #60a5fa; background: rgba(255,255,255,0.15); }
+        .form-select { width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; font-size: 14px; }
+        .form-select option { background: #374151; color: white; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: #10b981; color: white; }
+        .btn-primary:hover { background: #059669; }
+        .btn-secondary { background: #6b7280; color: white; margin-top: 10px; }
+        .btn-secondary:hover { background: #4b5563; }
+        .success-message { background: #10b981; color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px; font-size: 14px; display: none; }
+        .error-message { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0; font-size: 12px; display: none; }
+        .enlace-result { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 10px; padding: 15px; margin-top: 15px; display: none; }
+        .enlace-result h4 { color: #60a5fa; margin-bottom: 10px; font-size: 14px; }
+        .enlace-url { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; word-break: break-all; font-family: monospace; }
+        .mensaje-plantilla { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; white-space: pre-wrap; }
+        .copy-btn { background: #6b7280; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; margin: 5px; width: calc(50% - 5px); }
+        .copy-btn:hover { background: #4b5563; }
+        .upload-progress { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; padding: 10px; border-radius: 8px; text-align: center; margin: 10px 0; font-size: 12px; color: #60a5fa; display: none; }
+        .monturas-lista { max-height: 300px; overflow-y: auto; }
+        .montura-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .montura-info { flex: 1; }
+        .montura-codigo { font-weight: bold; margin-bottom: 5px; }
+        .montura-detalles { font-size: 11px; color: #d1d5db; }
+        .montura-actions { display: flex; gap: 5px; }
+        .btn-small { padding: 5px 10px; font-size: 11px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-ver { background: #3b82f6; color: white; }
+        .btn-eliminar { background: #ef4444; color: white; }
+        .btn-eliminar:hover { background: #dc2626; }
+        .nota-importante { background: rgba(245, 158, 11, 0.1); border: 1px solid #f59e0b; border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 11px; color: #f59e0b; }
     </style>
 </head>
 <body>
@@ -356,21 +66,13 @@
         <div class="form-card">
             <div class="form-title">📷 Subir Nueva Montura</div>
             
-            <div id="successMessage" class="success-message">
-                ✅ Montura guardada en catálogo
-            </div>
-
-            <div id="uploadProgress" class="upload-progress">
-                🔄 Verificando GitHub y subiendo imagen...
-            </div>
-
+            <div id="successMessage" class="success-message">✅ Montura guardada en catálogo</div>
+            <div id="uploadProgress" class="upload-progress">🔄 Subiendo...</div>
             <div id="errorMessage" class="error-message"></div>
             
             <div class="photo-upload">
                 <div class="photo-preview" id="photoPreview" onclick="document.getElementById('photoInput').click()">
-                    <div class="photo-text">
-                        📷<br>Tomar Foto<br><small>Toca aquí</small>
-                    </div>
+                    <div class="photo-text">📷<br>Tomar Foto<br><small>Toca aquí</small></div>
                 </div>
                 <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
             </div>
@@ -401,40 +103,27 @@
                 <input type="text" class="form-input" id="nombre" placeholder="Ej: Elegante Negro" maxlength="30">
             </div>
             
-            <button class="btn btn-primary" onclick="guardarEnCatalogo()">
-                💾 Guardar en Catálogo
-            </button>
-            
-            <button class="btn btn-secondary" onclick="verCatalogo()">
-                👁️ Ver Catálogo Cliente
-            </button>
+            <button class="btn btn-primary" onclick="guardarEnCatalogo()">💾 Guardar en Catálogo</button>
+            <button class="btn btn-secondary" onclick="verCatalogo()">👁️ Ver Catálogo Cliente</button>
             
             <div id="enlaceResult" class="enlace-result">
                 <h4>🔗 Montura guardada - Copia y envía manualmente:</h4>
-                
                 <strong>📱 Enlace directo:</strong>
                 <div id="enlaceCatalogo" class="enlace-url"></div>
-                
                 <strong>📋 Mensaje para copiar:</strong>
                 <div id="mensajePlantilla" class="mensaje-plantilla"></div>
-                
                 <div style="display: flex; gap: 10px;">
                     <button class="copy-btn" onclick="copiarEnlace()">📋 Copiar Enlace</button>
                     <button class="copy-btn" onclick="copiarMensaje()">📋 Copiar Mensaje</button>
                 </div>
-                
-                <div class="nota-importante">
-                    💡 <strong>Para enviar:</strong> Copia el mensaje y envíalo manualmente por WhatsApp. La imagen se mostrará en cualquier dispositivo.
-                </div>
+                <div class="nota-importante">💡 <strong>Para enviar:</strong> Copia el mensaje y envíalo manualmente por WhatsApp. La imagen se mostrará en cualquier dispositivo.</div>
             </div>
         </div>
         
         <div class="form-card">
             <div class="form-title">📋 Monturas en Catálogo</div>
             <div id="monturasGuardadas" class="monturas-lista">
-                <div style="text-align: center; color: #6b7280; padding: 20px;">
-                    No hay monturas guardadas aún
-                </div>
+                <div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>
             </div>
         </div>
     </div>
@@ -444,11 +133,10 @@
         let currentMessage = '';
         let currentLink = '';
         
-        // CONFIGURACIÓN CON TU TOKEN CORREGIDO
         const GITHUB_CONFIG = {
             username: 'urbana419',
             repo: 'catalogo-urbana',
-            token: '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',
+            token: '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',
             branch: 'main'
         };
         
@@ -458,11 +146,9 @@
         
         function mostrarError(mensaje) {
             const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = mensaje;
+            errorDiv.innerHTML = mensaje;
             errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
+            setTimeout(() => errorDiv.style.display = 'none', 8000);
         }
         
         function compressImage(file, quality = 0.8) {
@@ -470,69 +156,45 @@
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 const img = new Image();
-                
                 img.onload = function() {
                     const maxSize = 800;
                     let { width, height } = img;
-                    
                     if (width > height) {
-                        if (width > maxSize) {
-                            height = (height * maxSize) / width;
-                            width = maxSize;
-                        }
+                        if (width > maxSize) { height = (height * maxSize) / width; width = maxSize; }
                     } else {
-                        if (height > maxSize) {
-                            width = (width * maxSize) / height;
-                            height = maxSize;
-                        }
+                        if (height > maxSize) { width = (width * maxSize) / height; height = maxSize; }
                     }
-                    
-                    canvas.width = width;
-                    canvas.height = height;
+                    canvas.width = width; canvas.height = height;
                     ctx.drawImage(img, 0, 0, width, height);
-                    
                     resolve(canvas.toDataURL('image/jpeg', quality));
                 };
-                
                 img.src = URL.createObjectURL(file);
             });
         }
         
-        // FUNCIÓN MEJORADA PARA SUBIR A GITHUB CON MEJOR MANEJO DE ERRORES
         async function uploadToGitHub(imageData, filename) {
             try {
                 const base64Data = imageData.split(',')[1];
                 
-                // PRIMERO: Verificar si el repositorio existe
+                // Test de conexión con GitHub
+                const testResponse = await fetch(`https://api.github.com/user`, {
+                    headers: { 'Authorization': `token ${GITHUB_CONFIG.token}` }
+                });
+                
+                if (!testResponse.ok) {
+                    throw new Error(`❌ Token inválido o sin permisos. Status: ${testResponse.status}`);
+                }
+                
+                // Verificar repositorio
                 const repoResponse = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}`, {
-                    headers: {
-                        'Authorization': `token ${GITHUB_CONFIG.token}`,
-                    }
+                    headers: { 'Authorization': `token ${GITHUB_CONFIG.token}` }
                 });
                 
                 if (!repoResponse.ok) {
-                    throw new Error(`Repositorio no encontrado. Crea el repositorio '${GITHUB_CONFIG.repo}' en GitHub primero.`);
+                    throw new Error(`❌ No puedo acceder al repositorio '${GITHUB_CONFIG.repo}'. Verifica que exista y que el token tenga permisos.`);
                 }
                 
-                // SEGUNDO: Intentar crear la carpeta images si no existe
-                try {
-                    await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/contents/images/README.md`, {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `token ${GITHUB_CONFIG.token}`,
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            message: 'Create images folder',
-                            content: btoa('# Images folder for Urbana Vision catalog'),
-                            branch: GITHUB_CONFIG.branch
-                        })
-                    });
-                } catch(e) {
-                    // Si falla, es probable que ya exista, continuamos
-                }
-                
-                // TERCERO: Subir la imagen
+                // Subir imagen
                 const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/contents/images/${filename}`, {
                     method: 'PUT',
                     headers: {
@@ -547,14 +209,12 @@
                 });
                 
                 if (response.ok) {
-                    const data = await response.json();
                     return `https://raw.githubusercontent.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/images/${filename}`;
                 } else {
                     const errorData = await response.json();
-                    throw new Error(`GitHub API Error: ${errorData.message || 'Error desconocido'}`);
+                    throw new Error(`❌ Error GitHub: ${errorData.message}`);
                 }
             } catch (error) {
-                console.error('Error detallado:', error);
                 throw error;
             }
         }
@@ -580,48 +240,27 @@
             const precio = document.getElementById('precio').value.trim();
             const nombre = document.getElementById('nombre').value.trim();
             
-            // Ocultar mensajes previos
             document.getElementById('errorMessage').style.display = 'none';
             document.getElementById('successMessage').style.display = 'none';
             
-            if (!selectedPhoto) {
-                mostrarError('Por favor toma una foto de la montura');
-                return;
-            }
-            
-            if (!codigo) {
-                mostrarError('Por favor ingresa el código de la montura');
-                return;
-            }
-            
-            if (!categoria) {
-                mostrarError('Por favor selecciona una categoría');
-                return;
-            }
-            
-            if (!precio) {
-                mostrarError('Por favor ingresa el precio');
-                return;
-            }
+            if (!selectedPhoto) { mostrarError('Por favor toma una foto de la montura'); return; }
+            if (!codigo) { mostrarError('Por favor ingresa el código de la montura'); return; }
+            if (!categoria) { mostrarError('Por favor selecciona una categoría'); return; }
+            if (!precio) { mostrarError('Por favor ingresa el precio'); return; }
             
             try {
                 document.getElementById('uploadProgress').style.display = 'block';
-                document.getElementById('uploadProgress').textContent = '🔄 Verificando GitHub y subiendo imagen...';
                 
                 const filename = `${codigo.toLowerCase()}.jpg`;
                 const imageUrl = await uploadToGitHub(selectedPhoto, filename);
                 
                 const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
-                
                 monturas[codigo] = {
-                    codigo: codigo,
-                    categoria: categoria,
-                    precio: precio,
+                    codigo, categoria, precio,
                     nombre: nombre || 'Sin nombre',
                     foto: imageUrl,
                     fechaCreacion: new Date().toISOString()
                 };
-                
                 localStorage.setItem('monturas', JSON.stringify(monturas));
                 
                 const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
@@ -631,10 +270,8 @@
                 document.getElementById('enlaceCatalogo').textContent = enlaceCatalogo;
                 
                 const nombreCategoria = {
-                    'hombre': '👨 Hombres',
-                    'mujer': '👩 Mujeres', 
-                    'deportivo': '🏃 Deportivos',
-                    'niños': '👶 Niños'
+                    'hombre': '👨 Hombres', 'mujer': '👩 Mujeres', 
+                    'deportivo': '🏃 Deportivos', 'niños': '👶 Niños'
                 }[categoria];
                 
                 const mensaje = `🥽 *NUEVA MONTURA - Urbana Visión*
@@ -652,7 +289,6 @@ ${enlaceCatalogo}
 🎁 6 meses garantía`;
                 
                 currentMessage = mensaje;
-                
                 document.getElementById('mensajePlantilla').textContent = mensaje;
                 document.getElementById('uploadProgress').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
@@ -661,30 +297,20 @@ ${enlaceCatalogo}
                 mostrarMonturasGuardadas();
                 limpiarFormulario();
                 
-                setTimeout(() => {
-                    document.getElementById('successMessage').style.display = 'none';
-                }, 3000);
+                setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
                 
             } catch(error) {
                 document.getElementById('uploadProgress').style.display = 'none';
-                mostrarError(`Error: ${error.message}`);
+                mostrarError(error.message);
             }
         }
 
         function copiarEnlace() {
-            navigator.clipboard.writeText(currentLink).then(() => {
-                alert('📋 Enlace copiado');
-            }).catch(() => {
-                alert('Copia manualmente el enlace');
-            });
+            navigator.clipboard.writeText(currentLink).then(() => alert('📋 Enlace copiado')).catch(() => alert('Copia manualmente el enlace'));
         }
 
         function copiarMensaje() {
-            navigator.clipboard.writeText(currentMessage).then(() => {
-                alert('📋 Mensaje copiado');
-            }).catch(() => {
-                alert('Copia manualmente el mensaje');
-            });
+            navigator.clipboard.writeText(currentMessage).then(() => alert('📋 Mensaje copiado')).catch(() => alert('Copia manualmente el mensaje'));
         }
         
         function limpiarFormulario() {
@@ -692,7 +318,6 @@ ${enlaceCatalogo}
             document.getElementById('categoria').value = '';
             document.getElementById('precio').value = '';
             document.getElementById('nombre').value = '';
-            
             selectedPhoto = null;
             const preview = document.getElementById('photoPreview');
             preview.style.backgroundImage = 'none';
@@ -716,54 +341,30 @@ ${enlaceCatalogo}
         
         function mostrarMonturasGuardadas() {
             const container = document.getElementById('monturasGuardadas');
-            
             try {
                 const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
-                
                 if (Object.keys(monturas).length === 0) {
                     container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>';
                     return;
                 }
-                
                 let html = '';
                 for (const codigo in monturas) {
                     const montura = monturas[codigo];
                     if (!montura) continue;
-                    
                     const nombreCategoria = {
-                        'hombre': '👨',
-                        'mujer': '👩', 
-                        'deportivo': '🏃',
-                        'niños': '👶'
+                        'hombre': '👨', 'mujer': '👩', 'deportivo': '🏃', 'niños': '👶'
                     }[montura.categoria] || '👓';
-                    
                     const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
                     const enlaceMontura = `${baseUrl}?codigo=${codigo}`;
-                    
-                    html += `
-                        <div class="montura-item">
-                            <div class="montura-info">
-                                <div class="montura-codigo">${nombreCategoria} ${codigo} - ${montura.precio}</div>
-                                <div class="montura-detalles">${montura.nombre || 'Sin nombre'}</div>
-                            </div>
-                            <div class="montura-actions">
-                                <a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a>
-                                <button onclick="eliminarMontura('${codigo}')" class="btn-small btn-eliminar">Eliminar</button>
-                            </div>
-                        </div>
-                    `;
+                    html += `<div class="montura-item"><div class="montura-info"><div class="montura-codigo">${nombreCategoria} ${codigo} - ${montura.precio}</div><div class="montura-detalles">${montura.nombre || 'Sin nombre'}</div></div><div class="montura-actions"><a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a><button onclick="eliminarMontura('${codigo}')" class="btn-small btn-eliminar">Eliminar</button></div></div>`;
                 }
-                
                 container.innerHTML = html;
-                
             } catch(error) {
                 container.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">Error cargando</div>';
             }
         }
         
-        function verCatalogo() {
-            window.location.href = 'index.html';
-        }
+        function verCatalogo() { window.location.href = 'index.html'; }
     </script>
 </body>
 </html>
