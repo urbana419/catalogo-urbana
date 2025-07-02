@@ -27,7 +27,6 @@
         .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .btn-primary { background: #10b981; color: white; }
         .btn-secondary { background: #6b7280; color: white; margin-top: 10px; }
-        .btn-export { background: #f59e0b; color: white; margin-top: 10px; }
         .success-message { background: #10b981; color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px; font-size: 14px; display: none; }
         .enlace-result { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 10px; padding: 15px; margin-top: 15px; display: none; }
         .enlace-result h4 { color: #60a5fa; margin-bottom: 10px; font-size: 14px; }
@@ -43,8 +42,6 @@
         .btn-small { padding: 5px 10px; font-size: 11px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
         .btn-ver { background: #3b82f6; color: white; }
         .btn-eliminar { background: #ef4444; color: white; }
-        .export-section { background: rgba(245, 158, 11, 0.1); border: 1px solid #f59e0b; border-radius: 10px; padding: 15px; margin-top: 15px; }
-        .export-title { color: #f59e0b; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -107,13 +104,6 @@
                     <button class="copy-btn" onclick="copiarMensaje()">📋 Copiar Mensaje</button>
                 </div>
             </div>
-        </div>
-
-        <div class="export-section">
-            <div class="export-title">🔄 Sincronizar con otros dispositivos</div>
-            <button class="btn btn-export" onclick="exportarDatos()">📤 Exportar Datos</button>
-            <button class="btn btn-export" onclick="document.getElementById('importFile').click()">📥 Importar Datos</button>
-            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importarDatos(event)">
         </div>
         
         <div class="form-card">
@@ -206,36 +196,6 @@ ${enlaceCatalogo}
             limpiarFormulario();
             
             setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
-        }
-
-        function exportarDatos() {
-            const monturas = localStorage.getItem('monturas') || '{}';
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(monturas);
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "urbana-vision-catalogo.json");
-            document.body.appendChild(downloadAnchorNode);
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
-            alert('📤 Datos exportados. Guarda el archivo para importar en otro dispositivo.');
-        }
-
-        function importarDatos(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        const importedData = JSON.parse(e.target.result);
-                        localStorage.setItem('monturas', JSON.stringify(importedData));
-                        mostrarMonturasGuardadas();
-                        alert('📥 Datos importados correctamente');
-                    } catch (error) {
-                        alert('❌ Error importando datos');
-                    }
-                };
-                reader.readAsText(file);
-            }
         }
 
         function copiarEnlace() {
