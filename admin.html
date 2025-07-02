@@ -7,137 +7,240 @@
     <style>
         body { font-family: Arial; background: #1f2937; color: white; padding: 20px; }
         .container { max-width: 400px; margin: 0 auto; }
-        .card { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .photo-area { width: 150px; height: 150px; border: 2px dashed #60a5fa; border-radius: 10px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-size: cover; }
+        .card { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .logo { width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #f97316); border-radius: 50%; margin: 0 auto 10px; }
+        .photo-area { width: 150px; height: 150px; border: 2px dashed #60a5fa; border-radius: 10px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-size: cover; background-position: center; }
         .photo-area.has-photo { border-style: solid; }
-        input, select { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; background: rgba(255,255,255,0.1); color: white; }
-        input::placeholder { color: #ccc; }
-        button { width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
-        .btn-save { background: #10b981; color: white; }
-        .btn-copy { background: #6b7280; color: white; margin: 5px 0; }
-        .result { background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 10px; margin-top: 20px; display: none; }
-        .url-box { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; font-size: 12px; word-break: break-all; margin: 10px 0; }
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 12px; color: #d1d5db; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; box-sizing: border-box; }
+        input::placeholder { color: rgba(255,255,255,0.5); }
+        select option { background: #374151; color: white; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .btn-primary { background: #10b981; color: white; margin: 10px 0; }
+        .btn-secondary { background: #6b7280; color: white; margin: 10px 0; }
+        .btn-copy { background: #6b7280; color: white; margin: 5px; width: calc(50% - 5px); display: inline-block; }
+        .success-message { background: #10b981; color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px; display: none; }
+        .result-section { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 10px; padding: 15px; margin-top: 20px; display: none; }
+        .result-title { color: #60a5fa; font-weight: bold; margin-bottom: 10px; }
+        .url-box { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; word-break: break-all; margin: 10px 0; font-family: monospace; }
+        .message-box { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; margin: 10px 0; white-space: pre-wrap; }
+        .monturas-section { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; }
+        .montura-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .montura-info { flex: 1; }
+        .montura-actions { display: flex; gap: 5px; }
+        .btn-small { padding: 5px 10px; font-size: 11px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; }
+        .btn-ver { background: #3b82f6; color: white; }
+        .btn-eliminar { background: #ef4444; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h1>Admin - Urbana Visión</h1>
-            
-            <div class="photo-area" id="photo" onclick="document.getElementById('file').click()">
-                <span>📷 Tomar Foto</span>
+            <div class="header">
+                <div class="logo"></div>
+                <h1>Panel Admin</h1>
+                <p>Urbana Visión - Gestión de Monturas</p>
             </div>
-            <input type="file" id="file" accept="image/*" capture="environment" style="display:none">
             
-            <input type="text" id="codigo" placeholder="Código (ej: H001)" maxlength="4">
+            <div id="successMessage" class="success-message">✅ Montura guardada en catálogo</div>
             
-            <select id="categoria">
-                <option value="">Categoría</option>
-                <option value="hombre">👨 Hombres</option>
-                <option value="mujer">👩 Mujeres</option>
-                <option value="deportivo">🏃 Deportivos</option>
-                <option value="niños">👶 Niños</option>
-            </select>
+            <div class="photo-area" id="photoPreview" onclick="document.getElementById('photoInput').click()">
+                <span style="font-size: 12px; color: #60a5fa; text-align: center;">📷<br>Tomar Foto<br><small>Toca aquí</small></span>
+            </div>
+            <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none">
             
-            <input type="text" id="precio" placeholder="Precio (ej: $2500)">
-            <input type="text" id="nombre" placeholder="Nombre (opcional)">
+            <div class="form-group">
+                <label class="form-label">Código de Montura</label>
+                <input type="text" id="codigo" placeholder="Ej: H001, M002, D003" maxlength="4">
+            </div>
             
-            <button class="btn-save" onclick="guardar()">💾 Guardar</button>
+            <div class="form-group">
+                <label class="form-label">Categoría</label>
+                <select id="categoria">
+                    <option value="">Seleccionar categoría</option>
+                    <option value="hombre">👨 Hombres</option>
+                    <option value="mujer">👩 Mujeres</option>
+                    <option value="deportivo">🏃 Deportivos</option>
+                    <option value="niños">👶 Niños</option>
+                </select>
+            </div>
             
-            <div id="result" class="result">
-                <strong>Enlace:</strong>
-                <div id="enlace" class="url-box"></div>
-                <button class="btn-copy" onclick="copiarEnlace()">📋 Copiar Enlace</button>
-                <button class="btn-copy" onclick="copiarMensaje()">📋 Copiar Mensaje</button>
+            <div class="form-group">
+                <label class="form-label">Precio</label>
+                <input type="text" id="precio" placeholder="Ej: $2,500" maxlength="10">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Nombre (Opcional)</label>
+                <input type="text" id="nombre" placeholder="Ej: Elegante Negro" maxlength="30">
+            </div>
+            
+            <button class="btn-primary" onclick="guardarEnCatalogo()">💾 Guardar en Catálogo</button>
+            <button class="btn-secondary" onclick="verCatalogo()">👁️ Ver Catálogo Cliente</button>
+            
+            <div id="enlaceResult" class="result-section">
+                <div class="result-title">🔗 Montura guardada - Copia y envía manualmente:</div>
+                
+                <strong>📱 Enlace directo:</strong>
+                <div id="enlaceCatalogo" class="url-box"></div>
+                
+                <strong>📋 Mensaje para copiar:</strong>
+                <div id="mensajePlantilla" class="message-box"></div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-copy" onclick="copiarEnlace()">📋 Copiar Enlace</button>
+                    <button class="btn-copy" onclick="copiarMensaje()">📋 Copiar Mensaje</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="monturas-section">
+            <div class="result-title">📋 Monturas en Catálogo</div>
+            <div id="monturasGuardadas">
+                <div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>
             </div>
         </div>
     </div>
 
     <script>
-        let foto = null;
-        let enlace = '';
-        let mensaje = '';
+        let selectedPhoto = null;
+        let currentMessage = '';
+        let currentLink = '';
         
-        document.getElementById('file').onchange = function(e) {
+        document.addEventListener('DOMContentLoaded', function() {
+            mostrarMonturasGuardadas();
+        });
+        
+        document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    foto = e.target.result;
-                    const photoArea = document.getElementById('photo');
-                    photoArea.style.backgroundImage = `url(${foto})`;
-                    photoArea.classList.add('has-photo');
-                    photoArea.innerHTML = '<span style="background:rgba(0,0,0,0.7);padding:5px;border-radius:5px;">✅ Lista</span>';
+                    selectedPhoto = e.target.result;
+                    const preview = document.getElementById('photoPreview');
+                    preview.style.backgroundImage = `url(${selectedPhoto})`;
+                    preview.classList.add('has-photo');
+                    preview.innerHTML = '<span style="background: rgba(0,0,0,0.7); padding: 5px; border-radius: 5px; color: white; font-size: 12px;">✅ Foto Lista</span>';
                 };
                 reader.readAsDataURL(file);
             }
-        };
+        });
         
-        function guardar() {
+        function guardarEnCatalogo() {
             const codigo = document.getElementById('codigo').value.trim().toUpperCase();
             const categoria = document.getElementById('categoria').value;
             const precio = document.getElementById('precio').value.trim();
             const nombre = document.getElementById('nombre').value.trim();
             
-            if (!foto) { alert('Toma una foto'); return; }
-            if (!codigo) { alert('Código requerido'); return; }
-            if (!categoria) { alert('Categoría requerida'); return; }
-            if (!precio) { alert('Precio requerido'); return; }
+            if (!selectedPhoto) { alert('Por favor toma una foto de la montura'); return; }
+            if (!codigo) { alert('Por favor ingresa el código de la montura'); return; }
+            if (!categoria) { alert('Por favor selecciona una categoría'); return; }
+            if (!precio) { alert('Por favor ingresa el precio'); return; }
             
-            // Guardar en localStorage
             const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
             monturas[codigo] = {
                 codigo: codigo,
                 categoria: categoria,
                 precio: precio,
                 nombre: nombre || 'Sin nombre',
-                foto: foto
+                foto: selectedPhoto,
+                fechaCreacion: new Date().toISOString()
             };
             localStorage.setItem('monturas', JSON.stringify(monturas));
             
-            // Generar enlace
-            enlace = window.location.href.replace('admin.html', 'index.html') + '?codigo=' + codigo;
+            const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+            const enlaceCatalogo = `${baseUrl}?codigo=${codigo}`;
+            currentLink = enlaceCatalogo;
             
-            // Generar mensaje
-            const cats = {'hombre': '👨 Hombres', 'mujer': '👩 Mujeres', 'deportivo': '🏃 Deportivos', 'niños': '👶 Niños'};
-            mensaje = `🥽 NUEVA MONTURA - Urbana Visión
+            document.getElementById('enlaceCatalogo').textContent = enlaceCatalogo;
+            
+            const nombreCategoria = {
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños'
+            }[categoria];
+            
+            const mensaje = `🥽 *NUEVA MONTURA - Urbana Visión*
 
-📋 Código: ${codigo}
-👤 Categoría: ${cats[categoria]}
-💰 Precio: ${precio}
-${nombre ? `📝 Nombre: ${nombre}` : ''}
+📋 *Código:* ${codigo}
+👤 *Categoría:* ${nombreCategoria}
+💰 *Precio:* ${precio}
+${nombre ? `📝 *Nombre:* ${nombre}` : ''}
 
-📱 VER FOTO:
-${enlace}
+📱 *VER FOTO EN CATÁLOGO:*
+${enlaceCatalogo}
 
-🏥 Urbana Visión
+🏥 *Urbana Visión*
 📱 809-713-5307
 🎁 6 meses garantía`;
             
-            // Mostrar resultado
-            document.getElementById('enlace').textContent = enlace;
-            document.getElementById('result').style.display = 'block';
+            currentMessage = mensaje;
+            document.getElementById('mensajePlantilla').textContent = mensaje;
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('enlaceResult').style.display = 'block';
             
-            alert('✅ Guardado!');
+            mostrarMonturasGuardadas();
+            limpiarFormulario();
             
-            // Limpiar
+            setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
+        }
+
+        function copiarEnlace() {
+            navigator.clipboard.writeText(currentLink).then(() => alert('📋 Enlace copiado')).catch(() => alert('Copia manualmente el enlace'));
+        }
+
+        function copiarMensaje() {
+            navigator.clipboard.writeText(currentMessage).then(() => alert('📋 Mensaje copiado')).catch(() => alert('Copia manualmente el mensaje'));
+        }
+        
+        function limpiarFormulario() {
             document.getElementById('codigo').value = '';
             document.getElementById('categoria').value = '';
             document.getElementById('precio').value = '';
             document.getElementById('nombre').value = '';
-            foto = null;
-            const photoArea = document.getElementById('photo');
-            photoArea.style.backgroundImage = 'none';
-            photoArea.classList.remove('has-photo');
-            photoArea.innerHTML = '<span>📷 Tomar Foto</span>';
+            selectedPhoto = null;
+            const preview = document.getElementById('photoPreview');
+            preview.style.backgroundImage = 'none';
+            preview.classList.remove('has-photo');
+            preview.innerHTML = '<span style="font-size: 12px; color: #60a5fa; text-align: center;">📷<br>Tomar Foto<br><small>Toca aquí</small></span>';
+        }
+
+        function eliminarMontura(codigo) {
+            if (confirm(`¿Eliminar montura ${codigo}?`)) {
+                const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
+                delete monturas[codigo];
+                localStorage.setItem('monturas', JSON.stringify(monturas));
+                mostrarMonturasGuardadas();
+                alert(`✅ Montura ${codigo} eliminada`);
+            }
         }
         
-        function copiarEnlace() {
-            navigator.clipboard.writeText(enlace).then(() => alert('📋 Enlace copiado'));
+        function mostrarMonturasGuardadas() {
+            const container = document.getElementById('monturasGuardadas');
+            const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
+            if (Object.keys(monturas).length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>';
+                return;
+            }
+            let html = '';
+            for (const codigo in monturas) {
+                const montura = monturas[codigo];
+                if (!montura) continue;
+                const nombreCategoria = {
+                    'hombre': '👨', 'mujer': '👩', 'deportivo': '🏃', 'niños': '👶'
+                }[montura.categoria] || '👓';
+                const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+                const enlaceMontura = `${baseUrl}?codigo=${codigo}`;
+                html += `<div class="montura-item"><div class="montura-info"><div style="font-weight: bold; margin-bottom: 5px;">${nombreCategoria} ${codigo} - ${montura.precio}</div><div style="font-size: 11px; color: #d1d5db;">${montura.nombre}</div></div><div class="montura-actions"><a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a><button onclick="eliminarMontura('${codigo}')" class="btn-small btn-eliminar">Eliminar</button></div></div>`;
+            }
+            container.innerHTML = html;
         }
         
-        function copiarMensaje() {
-            navigator.clipboard.writeText(mensaje).then(() => alert('📋 Mensaje copiado'));
+        function verCatalogo() { 
+            window.location.href = 'index.html'; 
         }
     </script>
 </body>
