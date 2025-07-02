@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Monturas - Urbana Visión</title>
+    <title>Catálogo - Urbana Visión</title>
     <style>
         * {
             margin: 0;
@@ -13,9 +13,10 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             min-height: 100vh;
             padding: 10px;
+            color: white;
         }
         
         .container {
@@ -24,20 +25,20 @@
         }
         
         .header {
-            background: white;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
             padding: 20px;
-            margin-bottom: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
         
         .logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #4f46e5, #06b6d4, #f97316);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3b82f6, #f97316);
             border-radius: 50%;
-            margin: 0 auto 15px;
+            margin: 0 auto 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -46,288 +47,269 @@
         
         .logo::before {
             content: '';
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             background: white;
             border-radius: 50%;
-            box-shadow: inset 0 0 0 7px #4f46e5;
-        }
-        
-        .logo::after {
-            content: '#';
-            position: absolute;
-            color: #4f46e5;
-            font-size: 16px;
-            font-weight: bold;
-            left: 7px;
-            top: 7px;
+            box-shadow: inset 0 0 0 6px #3b82f6;
         }
         
         h1 {
-            font-size: 24px;
-            color: #1f2937;
+            font-size: 20px;
             margin-bottom: 5px;
         }
         
         .subtitle {
-            color: #6b7280;
-            font-size: 14px;
+            font-size: 12px;
+            opacity: 0.8;
         }
         
-        .categories {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .category-card {
-            background: white;
+        .card {
+            background: rgba(255,255,255,0.1);
             border-radius: 15px;
             padding: 20px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 3px solid transparent;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-            border-color: #4f46e5;
-            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.2);
-        }
-        
-        .category-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-        
-        .category-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 5px;
-        }
-        
-        .category-desc {
-            font-size: 12px;
-            color: #6b7280;
-        }
-        
-        .monturas-grid {
-            display: none;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
             margin-bottom: 20px;
-        }
-        
-        .montura-card {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 3px solid transparent;
-        }
-        
-        .montura-card:hover {
-            transform: translateY(-3px);
-            border-color: #10b981;
-            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.2);
+            backdrop-filter: blur(10px);
         }
         
         .montura-image {
             width: 100%;
-            height: 80px;
-            background: #f3f4f6;
-            border-radius: 10px;
+            max-width: 280px;
+            height: 280px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            display: block;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .montura-info {
+            text-align: center;
+        }
+        
+        .montura-codigo {
+            font-size: 24px;
+            font-weight: bold;
             margin-bottom: 10px;
+            color: #60a5fa;
+        }
+        
+        .montura-categoria {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #d1d5db;
+        }
+        
+        .montura-precio {
+            font-size: 28px;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+        
+        .montura-nombre {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-bottom: 20px;
+        }
+        
+        .contacto-info {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .contacto-info h3 {
+            color: #10b981;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .contacto-item {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-            color: #6b7280;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
         
-        .montura-code {
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-        
-        .select-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
             cursor: pointer;
+            margin-top: 15px;
             width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
             transition: all 0.3s;
         }
         
-        .select-btn:hover {
-            background: #059669;
+        .whatsapp-btn:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+        }
+        
+        .catalogo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .catalogo-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .catalogo-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+        
+        .catalogo-imagen {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .catalogo-codigo {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #60a5fa;
+        }
+        
+        .catalogo-precio {
+            color: #10b981;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+        
+        .catalogo-categoria {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+        
+        .filtros {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filtro-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filtro-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+        }
+        
+        .filtro-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .filtro-btn.active:hover {
+            background: #2563eb;
+        }
+        
+        .no-monturas {
+            text-align: center;
+            color: #6b7280;
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+        
+        .no-monturas .emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
         }
         
         .back-btn {
             background: #6b7280;
             color: white;
+            padding: 10px 20px;
             border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-size: 12px;
             cursor: pointer;
-            margin-bottom: 20px;
-            transition: all 0.3s;
+            margin-bottom: 15px;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .back-btn:hover {
             background: #4b5563;
         }
         
-        .precios-info {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        
-        .precios-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .precio-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .precio-item:last-child {
-            border-bottom: none;
-        }
-        
-        .precio-name {
-            font-size: 14px;
-            color: #374151;
-        }
-        
-        .precio-value {
-            font-size: 14px;
-            font-weight: bold;
-            color: #10b981;
-        }
-        
-        .contact-info {
-            background: #eff6ff;
-            border: 2px solid #3b82f6;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-        }
-        
-        .contact-info h4 {
-            color: #1e40af;
-            margin-bottom: 10px;
-        }
-        
-        .whatsapp-btn {
-            background: #25d366;
+        .admin-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #7c3aed;
             color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: inline-block;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .montura-gratis {
-            background: #fef3c7;
-            color: #92400e;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .montura-individual {
-            display: none;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .montura-foto-grande {
-            width: 100%;
-            max-width: 300px;
-            height: 200px;
-            background: #f3f4f6;
-            border-radius: 15px;
-            margin: 0 auto 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px;
-            color: #6b7280;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            text-decoration: none;
         }
-
-        .montura-info {
-            margin-bottom: 20px;
+        
+        .admin-btn:hover {
+            background: #6d28d9;
+            transform: scale(1.1);
         }
-
-        .montura-codigo-grande {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 10px;
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
         }
-
-        .montura-precio-grande {
-            font-size: 20px;
-            font-weight: bold;
-            color: #10b981;
-            margin-bottom: 15px;
-        }
-
-        .btn-quiero-grande {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            margin-bottom: 15px;
-        }
-
-        .btn-quiero-grande:hover {
-            background: #059669;
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -335,300 +317,172 @@
     <div class="container">
         <div class="header">
             <div class="logo"></div>
-            <h1>Monturas</h1>
-            <p class="subtitle">Urbana Visión - Catálogo</p>
+            <h1>Urbana Visión</h1>
+            <p class="subtitle">Catálogo de Monturas</p>
         </div>
         
-        <div id="monturaIndividual" class="montura-individual">
-            <div id="monturaFotoGrande" class="montura-foto-grande">
-                <div>📷</div>
-            </div>
-            <div class="montura-info">
-                <div id="monturaCodigoGrande" class="montura-codigo-grande">Código</div>
-                <div id="monturaPrecioGrande" class="montura-precio-grande">Precio</div>
-                <div id="monturaNombreGrande" style="color: #6b7280; margin-bottom: 15px;"></div>
-            </div>
-            <button id="btnQuieroGrande" class="btn-quiero-grande">
-                ✅ ¡Esta Quiero! (Enviar a Urbana Visión)
-            </button>
-            <button class="back-btn" onclick="showCategories()">← Ver Todas las Monturas</button>
-        </div>
-        
-        <div id="categories" class="categories">
-            <div class="category-card" onclick="showMonturas('hombre')">
-                <div class="category-icon">👨</div>
-                <div class="category-name">Hombres</div>
-                <div class="category-desc">Clásicas y modernas</div>
-            </div>
-            
-            <div class="category-card" onclick="showMonturas('mujer')">
-                <div class="category-icon">👩</div>
-                <div class="category-name">Mujeres</div>
-                <div class="category-desc">Elegantes y trendy</div>
-            </div>
-            
-            <div class="category-card" onclick="showMonturas('deportivo')">
-                <div class="category-icon">🏃</div>
-                <div class="category-name">Deportivos</div>
-                <div class="category-desc">Resistentes y cómodos</div>
-            </div>
-            
-            <div class="category-card" onclick="showMonturas('niños')">
-                <div class="category-icon">👶</div>
-                <div class="category-name">Niños</div>
-                <div class="category-desc">Divertidos y seguros</div>
-            </div>
-        </div>
-        
-        <div id="monturas" class="monturas-grid">
-            <button class="back-btn" onclick="showCategories()">← Volver</button>
-        </div>
-        
-        <div class="precios-info">
-            <div class="precios-title">💎 Precios de Cristales</div>
-            <div class="precio-item">
-                <span class="precio-name">👓 Monofocales</span>
-                <span class="precio-value">$2,500</span>
-            </div>
-            <div class="precio-item">
-                <span class="precio-name">🔍 Bifocales</span>
-                <span class="precio-value">$4,500</span>
-            </div>
-            <div class="precio-item">
-                <span class="precio-name">🔄 Progresivos</span>
-                <span class="precio-value">$8,500</span>
-            </div>
-            <div class="precio-item">
-                <span class="precio-name">✨ Anti-reflejo</span>
-                <span class="precio-value">+$1,000</span>
-            </div>
-            <div class="precio-item">
-                <span class="precio-name">🌞 Transition</span>
-                <span class="precio-value">+$2,000</span>
-            </div>
-            <div class="precio-item">
-                <span class="precio-name">💻 Blue Light</span>
-                <span class="precio-value">+$1,500</span>
-            </div>
-        </div>
-        
-        <div class="contact-info">
-            <h4>🏥 Urbana Visión</h4>
-            <p style="color: #1e40af; margin-bottom: 10px;">
-                6 meses garantía • Examen gratis
-            </p>
-            <a href="https://wa.me/18097135307?text=Hola Urbana Visión, quiero información sobre monturas" class="whatsapp-btn">
-                📱 WhatsApp: 809-713-5307
-            </a>
-            <div style="margin-top: 15px;">
-                <a href="admin.html" style="color: #6b7280; font-size: 12px; text-decoration: none;">
-                    🔧 Panel Admin
-                </a>
+        <div id="contenido">
+            <div class="loading">
+                🔄 Cargando catálogo...
             </div>
         </div>
     </div>
-
+    
+    <a href="admin.html" class="admin-btn">⚙️</a>
+    
     <script>
-        let monturas = {};
-
         document.addEventListener('DOMContentLoaded', function() {
-            cargarMonturasDesdeStorage();
-            
             const urlParams = new URLSearchParams(window.location.search);
-            const codigo = urlParams.get('codigo');
-            if (codigo) {
-                showMonturaIndividual(codigo);
+            const codigoEspecifico = urlParams.get('codigo');
+            
+            if (codigoEspecifico) {
+                mostrarMonturaEspecifica(codigoEspecifico);
+            } else {
+                mostrarCatalogoCompleto();
             }
         });
-
-        function cargarMonturasDesdeStorage() {
-            try {
-                const monturasGuardadas = JSON.parse(localStorage.getItem('monturas') || '{}');
-                
-                if (Object.keys(monturasGuardadas).length === 0) {
-                    monturas = {
-                        hombre: [
-                            { code: 'H001', name: 'Ejecutivo Negro', icon: '🕴️', precio: '$3,800', foto: null },
-                            { code: 'H002', name: 'Clásico Marrón', icon: '👔', precio: '$2,500', foto: null }
-                        ],
-                        mujer: [
-                            { code: 'M001', name: 'Elegante Rosa', icon: '💄', precio: '$4,100', foto: null },
-                            { code: 'M002', name: 'Cat Eye Negro', icon: '😎', precio: '$4,800', foto: null }
-                        ],
-                        deportivo: [
-                            { code: 'D001', name: 'Running Negro', icon: '🏃', precio: '$2,600', foto: null }
-                        ],
-                        niños: [
-                            { code: 'N001', name: 'Superhéroe Azul', icon: '🦸', precio: '$1,800', foto: null }
-                        ]
-                    };
-                } else {
-                    monturas = { hombre: [], mujer: [], deportivo: [], niños: [] };
-                    
-                    Object.values(monturasGuardadas).forEach(montura => {
-                        if (montura && montura.categoria && monturas[montura.categoria]) {
-                            monturas[montura.categoria].push({
-                                code: montura.codigo,
-                                name: montura.nombre || 'Sin nombre',
-                                precio: montura.precio,
-                                foto: montura.foto,
-                                icon: getIconByCategory(montura.categoria)
-                            });
-                        }
-                    });
-                }
-            } catch(error) {
-                console.error('Error cargando monturas:', error);
-                monturas = {
-                    hombre: [{ code: 'H001', name: 'Ejemplo', icon: '👨', precio: '$2,500', foto: null }],
-                    mujer: [{ code: 'M001', name: 'Ejemplo', icon: '👩', precio: '$3,000', foto: null }],
-                    deportivo: [{ code: 'D001', name: 'Ejemplo', icon: '🏃', precio: '$2,800', foto: null }],
-                    niños: [{ code: 'N001', name: 'Ejemplo', icon: '👶', precio: '$1,800', foto: null }]
-                };
-            }
-        }
-
-        function getIconByCategory(categoria) {
-            const icons = {
-                'hombre': '👨',
-                'mujer': '👩', 
-                'deportivo': '🏃',
-                'niños': '👶'
-            };
-            return icons[categoria] || '👓';
-        }
-
-        function showMonturaIndividual(codigo) {
-            let monturaEncontrada = null;
+        
+        function mostrarMonturaEspecifica(codigo) {
+            const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
+            const montura = monturas[codigo.toUpperCase()];
             
-            for (let categoria in monturas) {
-                const montura = monturas[categoria].find(m => m && m.code === codigo);
-                if (montura) {
-                    monturaEncontrada = montura;
-                    break;
-                }
-            }
-
-            if (!monturaEncontrada) {
-                try {
-                    const monturasGuardadas = JSON.parse(localStorage.getItem('monturas') || '{}');
-                    if (monturasGuardadas[codigo]) {
-                        const montura = monturasGuardadas[codigo];
-                        monturaEncontrada = {
-                            code: montura.codigo,
-                            name: montura.nombre || 'Sin nombre',
-                            precio: montura.precio,
-                            foto: montura.foto,
-                            icon: getIconByCategory(montura.categoria)
-                        };
-                    }
-                } catch(error) {
-                    console.error('Error buscando montura:', error);
-                }
-            }
-
-            if (monturaEncontrada) {
-                document.getElementById('categories').style.display = 'none';
-                document.getElementById('monturas').style.display = 'none';
-                document.getElementById('monturaIndividual').style.display = 'block';
-
-                document.getElementById('monturaCodigoGrande').textContent = monturaEncontrada.code;
-                document.getElementById('monturaPrecioGrande').textContent = monturaEncontrada.precio;
-                document.getElementById('monturaNombreGrande').textContent = monturaEncontrada.name;
-
-                const fotoGrande = document.getElementById('monturaFotoGrande');
-                if (monturaEncontrada.foto) {
-                    fotoGrande.style.backgroundImage = `url(${monturaEncontrada.foto})`;
-                    fotoGrande.style.backgroundSize = 'cover';
-                    fotoGrande.style.backgroundPosition = 'center';
-                    fotoGrande.innerHTML = '';
-                } else {
-                    fotoGrande.style.backgroundImage = 'none';
-                    fotoGrande.innerHTML = `<div>${monturaEncontrada.icon}</div>`;
-                }
-
-                document.getElementById('btnQuieroGrande').onclick = function() {
-                    selectMontura(monturaEncontrada.code, monturaEncontrada.name, monturaEncontrada.icon, monturaEncontrada.precio);
-                };
-            } else {
-                showCategories();
-            }
-        }
-
-        function showMonturas(categoria) {
-            document.getElementById('categories').style.display = 'none';
-            document.getElementById('monturaIndividual').style.display = 'none';
-            const monturasGrid = document.getElementById('monturas');
-            monturasGrid.style.display = 'grid';
+            const contenido = document.getElementById('contenido');
             
-            const existingMonturas = monturasGrid.querySelectorAll('.montura-card');
-            existingMonturas.forEach(card => card.remove());
-            
-            if (!monturas[categoria] || monturas[categoria].length === 0) {
-                const emptyCard = document.createElement('div');
-                emptyCard.style.gridColumn = '1 / -1';
-                emptyCard.style.textAlign = 'center';
-                emptyCard.style.padding = '40px 20px';
-                emptyCard.style.color = '#6b7280';
-                emptyCard.innerHTML = `
-                    <div style="font-size: 40px; margin-bottom: 10px;">📷</div>
-                    <div>No hay monturas en esta categoría aún.</div>
-                    <div style="font-size: 12px; margin-top: 10px;">El administrador agregará fotos pronto.</div>
+            if (!montura) {
+                contenido.innerHTML = `
+                    <div class="card">
+                        <div class="error-message">
+                            <span class="emoji">😔</span><br>
+                            Montura no encontrada<br>
+                            <small>Código: ${codigo}</small>
+                        </div>
+                        <a href="index.html" class="back-btn">🔙 Ver Catálogo Completo</a>
+                    </div>
                 `;
-                monturasGrid.appendChild(emptyCard);
                 return;
             }
             
-            monturas[categoria].forEach(montura => {
-                if (!montura) return;
-                
-                const card = document.createElement('div');
-                card.className = 'montura-card';
-                
-                const imagenDisplay = montura.foto 
-                    ? `<img src="${montura.foto}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 10px;">`
-                    : `<div style="font-size: 30px; color: #6b7280;">${montura.icon}</div>`;
-                
-                card.innerHTML = `
-                    <div class="montura-gratis">${montura.precio}</div>
-                    <div class="montura-image">${imagenDisplay}</div>
-                    <div class="montura-code">${montura.code}</div>
-                    <button class="select-btn" onclick="selectMontura('${montura.code}', '${montura.name}', '${montura.icon}', '${montura.precio}')">
-                        ✅ Esta Quiero
-                    </button>
-                `;
-                monturasGrid.appendChild(card);
-            });
-        }
-
-        function showCategories() {
-            document.getElementById('monturas').style.display = 'none';
-            document.getElementById('monturaIndividual').style.display = 'none';
-            document.getElementById('categories').style.display = 'grid';
+            const nombreCategoria = {
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños'
+            }[montura.categoria] || '👓 General';
             
-            if (window.location.search) {
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
+            const mensajeWhatsApp = `Hola! Me interesa la montura ${montura.codigo} (${nombreCategoria}) - ${montura.precio}`;
+            const urlWhatsApp = `https://wa.me/18097135307?text=${encodeURIComponent(mensajeWhatsApp)}`;
+            
+            contenido.innerHTML = `
+                <a href="index.html" class="back-btn">🔙 Ver Catálogo Completo</a>
+                
+                <div class="card">
+                    <img src="${montura.foto}" alt="Montura ${montura.codigo}" class="montura-image" 
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4MCIgdmlld0JveD0iMCAwIDI4MCAyODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMjgwIiBmaWxsPSIjMzc0MTUxIiByeD0iMTUiLz4KPHN2ZyB4PSI5MCIgeT0iOTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzZiNzI4MCIgc3Ryb2tlLXdpZHRoPSIyIj4KPHN0eWxlPi5sdWNpZGUtZXllLW9mZntzdHJva2U6IzZiNzI4MH08L3N0eWxlPgo8cGF0aCBkPSJtOSA5IDMgM0w5IDE1Ii8+CjxwYXRoIGQ9Im0xNSA5LTMgM2wzIDMiLz4KPHN0eWxlPi5sdWNpZGUtZXllLW9mZntzdHJva2U6IzZiNzI4MH08L3N0eWxlPgo8L3N2Zz4KPHRleHQgeD0iMTQwIiB5PSIyMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzZiNzI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Rm90byBubyBkaXNwb25pYmxlPC90ZXh0Pgo8L3N2Zz4='">
+                    
+                    <div class="montura-info">
+                        <div class="montura-codigo">${montura.codigo}</div>
+                        <div class="montura-categoria">${nombreCategoria}</div>
+                        <div class="montura-precio">${montura.precio}</div>
+                        ${montura.nombre && montura.nombre !== 'Sin nombre' ? `<div class="montura-nombre">${montura.nombre}</div>` : ''}
+                        
+                        <a href="${urlWhatsApp}" class="whatsapp-btn" target="_blank">
+                            📱 Contactar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contacto-info">
+                    <h3>📞 Información de Contacto</h3>
+                    <div class="contacto-item">🏥 Urbana Visión</div>
+                    <div class="contacto-item">📱 (809) 713-5307</div>
+                    <div class="contacto-item">🎁 6 meses de garantía</div>
+                </div>
+            `;
         }
-
-        function selectMontura(code, name, icon, precio) {
-            const mensaje = `🥽 *Quiero esta montura - Urbana Visión*
-
-📋 *Código:* ${code} ${icon}
-💰 *Precio montura:* ${precio}
-
-💎 *Precios cristales:*
-👓 Monofocales: $2,500
-🔍 Bifocales: $4,500  
-🔄 Progresivos: $8,500
-✨ Anti-reflejo: +$1,000
-🌞 Transition: +$2,000
-💻 Blue Light: +$1,500
-
-🎁 *6 meses garantía • Examen gratis*`;
-
-            const whatsappUrl = `https://wa.me/18097135307?text=${encodeURIComponent(mensaje)}`;
-            window.open(whatsappUrl, '_blank');
+        
+        function mostrarCatalogoCompleto() {
+            const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
+            const contenido = document.getElementById('contenido');
+            
+            if (Object.keys(monturas).length === 0) {
+                contenido.innerHTML = `
+                    <div class="card">
+                        <div class="no-monturas">
+                            <span class="emoji">🥽</span>
+                            No hay monturas en el catálogo aún
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <div class="filtros">
+                    <button class="filtro-btn active" onclick="filtrarCategoria('todas')">🌟 Todas</button>
+                    <button class="filtro-btn" onclick="filtrarCategoria('hombre')">👨 Hombres</button>
+                    <button class="filtro-btn" onclick="filtrarCategoria('mujer')">👩 Mujeres</button>
+                    <button class="filtro-btn" onclick="filtrarCategoria('deportivo')">🏃 Deportivos</button>
+                    <button class="filtro-btn" onclick="filtrarCategoria('niños')">👶 Niños</button>
+                </div>
+                
+                <div class="catalogo-grid" id="catalogoGrid">
+            `;
+            
+            for (const codigo in monturas) {
+                const montura = monturas[codigo];
+                if (!montura) continue;
+                
+                const nombreCategoria = {
+                    'hombre': '👨',
+                    'mujer': '👩', 
+                    'deportivo': '🏃',
+                    'niños': '👶'
+                }[montura.categoria] || '👓';
+                
+                html += `
+                    <div class="catalogo-item" data-categoria="${montura.categoria}" onclick="verMontura('${codigo}')">
+                        <img src="${montura.foto}" alt="Montura ${codigo}" class="catalogo-imagen"
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjMzc0MTUxIiByeD0iOCIvPgo8c3ZnIHg9IjMwIiB5PSIzMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzZiNzI4MCIgc3Ryb2tlLXdpZHRoPSIyIj4KPHN0eWxlPi5sdWNpZGUtZXllLW9mZntzdHJva2U6IzZiNzI4MH08L3N0eWxlPgo8cGF0aCBkPSJtOSA5IDMgM0w5IDE1Ii8+CjxwYXRoIGQ9Im0xNSA5LTMgM2wzIDMiLz4KPHN0eWxlPi5sdWNpZGUtZXllLW9mZntzdHJva2U6IzZiNzI4MH08L3N0eWxlPgo8L3N2Zz4KPC9zdmc+'">
+                        <div class="catalogo-codigo">${nombreCategoria} ${codigo}</div>
+                        <div class="catalogo-precio">${montura.precio}</div>
+                        <div class="catalogo-categoria">${montura.nombre && montura.nombre !== 'Sin nombre' ? montura.nombre : 'Sin nombre'}</div>
+                    </div>
+                `;
+            }
+            
+            html += `
+                </div>
+                
+                <div class="contacto-info">
+                    <h3>📞 Información de Contacto</h3>
+                    <div class="contacto-item">🏥 Urbana Visión</div>
+                    <div class="contacto-item">📱 (809) 713-5307</div>
+                    <div class="contacto-item">🎁 6 meses de garantía</div>
+                </div>
+            `;
+            
+            contenido.innerHTML = html;
+        }
+        
+        function verMontura(codigo) {
+            window.location.href = `?codigo=${codigo}`;
+        }
+        
+        function filtrarCategoria(categoria) {
+            // Actualizar botones
+            const botones = document.querySelectorAll('.filtro-btn');
+            botones.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filtrar elementos
+            const items = document.querySelectorAll('.catalogo-item');
+            items.forEach(item => {
+                if (categoria === 'todas' || item.dataset.categoria === categoria) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>
