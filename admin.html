@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo - Urbana Visión</title>
+    <title>Admin - Urbana Visión</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #1f2937 0%, #374151 100%); min-height: 100vh; padding: 10px; color: white; }
@@ -12,198 +12,284 @@
         .logo { width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #f97316); border-radius: 50%; margin: 0 auto 10px; }
         h1 { font-size: 20px; margin-bottom: 5px; }
         .subtitle { font-size: 12px; opacity: 0.8; }
-        .card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
-        .montura-image { width: 100%; max-width: 280px; height: 280px; border-radius: 15px; object-fit: cover; margin: 0 auto 20px; display: block; border: 2px solid rgba(255,255,255,0.2); }
-        .montura-info { text-align: center; }
-        .montura-codigo { font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #60a5fa; }
-        .montura-categoria { font-size: 16px; margin-bottom: 10px; color: #d1d5db; }
-        .montura-precio { font-size: 28px; font-weight: bold; color: #10b981; margin-bottom: 10px; }
-        .montura-nombre { font-size: 14px; color: #9ca3af; margin-bottom: 20px; }
-        .contacto-info { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 10px; padding: 15px; text-align: center; margin-top: 20px; }
-        .contacto-info h3 { color: #10b981; margin-bottom: 10px; font-size: 16px; }
-        .contacto-item { display: flex; align-items: center; justify-content: center; margin-bottom: 8px; font-size: 14px; }
-        .whatsapp-btn { background: #25d366; color: white; padding: 12px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; text-decoration: none; display: inline-block; text-align: center; }
-        .catalogo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .catalogo-item { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.2); }
-        .catalogo-item:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
-        .catalogo-imagen { width: 100%; height: 120px; border-radius: 8px; object-fit: cover; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.2); }
-        .catalogo-codigo { font-weight: bold; font-size: 14px; margin-bottom: 5px; color: #60a5fa; }
-        .catalogo-precio { color: #10b981; font-weight: bold; font-size: 13px; margin-bottom: 3px; }
-        .catalogo-categoria { font-size: 11px; color: #9ca3af; }
-        .filtros { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .filtro-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 20px; font-size: 12px; cursor: pointer; }
-        .filtro-btn.active { background: #3b82f6; border-color: #3b82f6; }
-        .no-monturas { text-align: center; color: #6b7280; padding: 40px 20px; font-size: 14px; }
-        .back-btn { background: #6b7280; color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 12px; cursor: pointer; margin-bottom: 15px; text-decoration: none; display: inline-block; }
-        .admin-btn { position: fixed; bottom: 20px; right: 20px; background: #7c3aed; color: white; padding: 12px; border: none; border-radius: 50%; font-size: 18px; cursor: pointer; width: 50px; height: 50px; text-decoration: none; }
-        .error-message { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0; font-size: 14px; }
+        .form-card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+        .form-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #60a5fa; }
+        .photo-upload { text-align: center; margin-bottom: 15px; }
+        .photo-preview { width: 150px; height: 150px; border: 2px dashed #60a5fa; border-radius: 10px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-size: cover; background-position: center; }
+        .photo-preview.has-image { border-style: solid; }
+        .photo-text { font-size: 12px; color: #60a5fa; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 12px; color: #d1d5db; margin-bottom: 5px; }
+        .form-input { width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; font-size: 14px; }
+        .form-input::placeholder { color: rgba(255,255,255,0.5); }
+        .form-select { width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; font-size: 14px; }
+        .form-select option { background: #374151; color: white; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .btn-primary { background: #10b981; color: white; }
+        .btn-secondary { background: #6b7280; color: white; margin-top: 10px; }
+        .btn-export { background: #f59e0b; color: white; margin-top: 10px; }
+        .success-message { background: #10b981; color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px; font-size: 14px; display: none; }
+        .enlace-result { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 10px; padding: 15px; margin-top: 15px; display: none; }
+        .enlace-result h4 { color: #60a5fa; margin-bottom: 10px; font-size: 14px; }
+        .enlace-url { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; word-break: break-all; font-family: monospace; }
+        .mensaje-plantilla { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; white-space: pre-wrap; }
+        .copy-btn { background: #6b7280; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; margin: 5px; width: calc(50% - 5px); }
+        .monturas-lista { max-height: 300px; overflow-y: auto; }
+        .montura-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .montura-info { flex: 1; }
+        .montura-codigo { font-weight: bold; margin-bottom: 5px; }
+        .montura-detalles { font-size: 11px; color: #d1d5db; }
+        .montura-actions { display: flex; gap: 5px; }
+        .btn-small { padding: 5px 10px; font-size: 11px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-ver { background: #3b82f6; color: white; }
+        .btn-eliminar { background: #ef4444; color: white; }
+        .export-section { background: rgba(245, 158, 11, 0.1); border: 1px solid #f59e0b; border-radius: 10px; padding: 15px; margin-top: 15px; }
+        .export-title { color: #f59e0b; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="logo"></div>
-            <h1>Urbana Visión</h1>
-            <p class="subtitle">Catálogo de Monturas</p>
+            <h1>Panel Admin</h1>
+            <p class="subtitle">Urbana Visión - Gestión de Monturas</p>
         </div>
         
-        <div id="contenido">
-            <div style="text-align: center; padding: 40px; color: #9ca3af;">🔄 Cargando catálogo...</div>
+        <div class="form-card">
+            <div class="form-title">📷 Subir Nueva Montura</div>
+            
+            <div id="successMessage" class="success-message">✅ Montura guardada</div>
+            
+            <div class="photo-upload">
+                <div class="photo-preview" id="photoPreview" onclick="document.getElementById('photoInput').click()">
+                    <div class="photo-text">📷<br>Tomar Foto<br><small>Toca aquí</small></div>
+                </div>
+                <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Código de Montura</label>
+                <input type="text" class="form-input" id="codigo" placeholder="Ej: H001" maxlength="4">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Categoría</label>
+                <select class="form-select" id="categoria">
+                    <option value="">Seleccionar categoría</option>
+                    <option value="hombre">👨 Hombres</option>
+                    <option value="mujer">👩 Mujeres</option>
+                    <option value="deportivo">🏃 Deportivos</option>
+                    <option value="niños">👶 Niños</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Precio</label>
+                <input type="text" class="form-input" id="precio" placeholder="Ej: $2,500" maxlength="10">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Nombre (Opcional)</label>
+                <input type="text" class="form-input" id="nombre" placeholder="Ej: Elegante Negro" maxlength="30">
+            </div>
+            
+            <button class="btn btn-primary" onclick="guardarEnCatalogo()">💾 Guardar en Catálogo</button>
+            <button class="btn btn-secondary" onclick="verCatalogo()">👁️ Ver Catálogo</button>
+            
+            <div id="enlaceResult" class="enlace-result">
+                <h4>🔗 Listo para enviar:</h4>
+                <strong>📱 Enlace:</strong>
+                <div id="enlaceCatalogo" class="enlace-url"></div>
+                <strong>📋 Mensaje:</strong>
+                <div id="mensajePlantilla" class="mensaje-plantilla"></div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="copy-btn" onclick="copiarEnlace()">📋 Copiar Enlace</button>
+                    <button class="copy-btn" onclick="copiarMensaje()">📋 Copiar Mensaje</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-section">
+            <div class="export-title">🔄 Sincronizar con otros dispositivos</div>
+            <button class="btn btn-export" onclick="exportarDatos()">📤 Exportar Datos</button>
+            <button class="btn btn-export" onclick="document.getElementById('importFile').click()">📥 Importar Datos</button>
+            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importarDatos(event)">
+        </div>
+        
+        <div class="form-card">
+            <div class="form-title">📋 Monturas Guardadas</div>
+            <div id="monturasGuardadas" class="monturas-lista">
+                <div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas</div>
+            </div>
         </div>
     </div>
-    
-    <a href="admin.html" class="admin-btn">⚙️</a>
-    
+
     <script>
+        let selectedPhoto = null;
+        let currentMessage = '';
+        let currentLink = '';
+        
         document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const codigoEspecifico = urlParams.get('codigo');
-            
-            if (codigoEspecifico) {
-                mostrarMonturaEspecifica(codigoEspecifico);
-            } else {
-                mostrarCatalogoCompleto();
+            mostrarMonturasGuardadas();
+        });
+        
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedPhoto = e.target.result;
+                    const preview = document.getElementById('photoPreview');
+                    preview.style.backgroundImage = `url(${selectedPhoto})`;
+                    preview.classList.add('has-image');
+                    preview.innerHTML = '<div class="photo-text" style="background: rgba(0,0,0,0.7); padding: 5px; border-radius: 5px; color: white;">✅ Foto Lista</div>';
+                };
+                reader.readAsDataURL(file);
             }
         });
         
-        function mostrarMonturaEspecifica(codigo) {
+        function guardarEnCatalogo() {
+            const codigo = document.getElementById('codigo').value.trim().toUpperCase();
+            const categoria = document.getElementById('categoria').value;
+            const precio = document.getElementById('precio').value.trim();
+            const nombre = document.getElementById('nombre').value.trim();
+            
+            if (!selectedPhoto) { alert('Toma una foto'); return; }
+            if (!codigo) { alert('Ingresa el código'); return; }
+            if (!categoria) { alert('Selecciona categoría'); return; }
+            if (!precio) { alert('Ingresa el precio'); return; }
+            
             const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
-            const montura = monturas[codigo.toUpperCase()];
+            monturas[codigo] = {
+                codigo: codigo,
+                categoria: categoria,
+                precio: precio,
+                nombre: nombre || 'Sin nombre',
+                foto: selectedPhoto,
+                fechaCreacion: new Date().toISOString()
+            };
+            localStorage.setItem('monturas', JSON.stringify(monturas));
             
-            const contenido = document.getElementById('contenido');
+            const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+            const enlaceCatalogo = `${baseUrl}?codigo=${codigo}`;
+            currentLink = enlaceCatalogo;
             
-            if (!montura) {
-                contenido.innerHTML = `
-                    <div class="card">
-                        <div class="error-message">
-                            😔<br>
-                            Montura no encontrada<br>
-                            <small>Código: ${codigo}</small>
-                        </div>
-                        <a href="index.html" class="back-btn">🔙 Ver Catálogo Completo</a>
-                    </div>
-                `;
-                return;
-            }
+            document.getElementById('enlaceCatalogo').textContent = enlaceCatalogo;
             
             const nombreCategoria = {
                 'hombre': '👨 Hombres',
                 'mujer': '👩 Mujeres', 
                 'deportivo': '🏃 Deportivos',
                 'niños': '👶 Niños'
-            }[montura.categoria] || '👓 General';
+            }[categoria];
             
-            const mensajeWhatsApp = `Hola! Me interesa la montura ${montura.codigo} (${nombreCategoria}) - ${montura.precio}`;
-            const urlWhatsApp = `https://wa.me/18097135307?text=${encodeURIComponent(mensajeWhatsApp)}`;
+            const mensaje = `🥽 NUEVA MONTURA - Urbana Visión
+
+📋 Código: ${codigo}
+👤 Categoría: ${nombreCategoria}
+💰 Precio: ${precio}
+${nombre ? `📝 Nombre: ${nombre}` : ''}
+
+📱 VER FOTO:
+${enlaceCatalogo}
+
+🏥 Urbana Visión
+📱 809-713-5307
+🎁 6 meses garantía`;
             
-            contenido.innerHTML = `
-                <a href="index.html" class="back-btn">🔙 Ver Catálogo Completo</a>
-                
-                <div class="card">
-                    <img src="${montura.foto}" alt="Montura ${montura.codigo}" class="montura-image">
-                    
-                    <div class="montura-info">
-                        <div class="montura-codigo">${montura.codigo}</div>
-                        <div class="montura-categoria">${nombreCategoria}</div>
-                        <div class="montura-precio">${montura.precio}</div>
-                        ${montura.nombre && montura.nombre !== 'Sin nombre' ? `<div class="montura-nombre">${montura.nombre}</div>` : ''}
-                        
-                        <a href="${urlWhatsApp}" class="whatsapp-btn" target="_blank">
-                            📱 Contactar por WhatsApp
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="contacto-info">
-                    <h3>📞 Información de Contacto</h3>
-                    <div class="contacto-item">🏥 Urbana Visión</div>
-                    <div class="contacto-item">📱 (809) 713-5307</div>
-                    <div class="contacto-item">🎁 6 meses de garantía</div>
-                </div>
-            `;
+            currentMessage = mensaje;
+            document.getElementById('mensajePlantilla').textContent = mensaje;
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('enlaceResult').style.display = 'block';
+            
+            mostrarMonturasGuardadas();
+            limpiarFormulario();
+            
+            setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
+        }
+
+        function exportarDatos() {
+            const monturas = localStorage.getItem('monturas') || '{}';
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(monturas);
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "urbana-vision-catalogo.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            alert('📤 Datos exportados. Guarda el archivo para importar en otro dispositivo.');
+        }
+
+        function importarDatos(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        localStorage.setItem('monturas', JSON.stringify(importedData));
+                        mostrarMonturasGuardadas();
+                        alert('📥 Datos importados correctamente');
+                    } catch (error) {
+                        alert('❌ Error importando datos');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function copiarEnlace() {
+            navigator.clipboard.writeText(currentLink).then(() => alert('📋 Enlace copiado')).catch(() => alert('Copia manualmente'));
+        }
+
+        function copiarMensaje() {
+            navigator.clipboard.writeText(currentMessage).then(() => alert('📋 Mensaje copiado')).catch(() => alert('Copia manualmente'));
         }
         
-        function mostrarCatalogoCompleto() {
+        function limpiarFormulario() {
+            document.getElementById('codigo').value = '';
+            document.getElementById('categoria').value = '';
+            document.getElementById('precio').value = '';
+            document.getElementById('nombre').value = '';
+            selectedPhoto = null;
+            const preview = document.getElementById('photoPreview');
+            preview.style.backgroundImage = 'none';
+            preview.classList.remove('has-image');
+            preview.innerHTML = '<div class="photo-text">📷<br>Tomar Foto<br><small>Toca aquí</small></div>';
+        }
+
+        function eliminarMontura(codigo) {
+            if (confirm(`¿Eliminar ${codigo}?`)) {
+                const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
+                delete monturas[codigo];
+                localStorage.setItem('monturas', JSON.stringify(monturas));
+                mostrarMonturasGuardadas();
+                alert(`✅ ${codigo} eliminada`);
+            }
+        }
+        
+        function mostrarMonturasGuardadas() {
+            const container = document.getElementById('monturasGuardadas');
             const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
-            const contenido = document.getElementById('contenido');
-            
             if (Object.keys(monturas).length === 0) {
-                contenido.innerHTML = `
-                    <div class="card">
-                        <div class="no-monturas">
-                            🥽<br>
-                            No hay monturas en el catálogo aún
-                        </div>
-                    </div>
-                `;
+                container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas</div>';
                 return;
             }
-            
-            let html = `
-                <div class="filtros">
-                    <button class="filtro-btn active" onclick="filtrarCategoria('todas')">🌟 Todas</button>
-                    <button class="filtro-btn" onclick="filtrarCategoria('hombre')">👨 Hombres</button>
-                    <button class="filtro-btn" onclick="filtrarCategoria('mujer')">👩 Mujeres</button>
-                    <button class="filtro-btn" onclick="filtrarCategoria('deportivo')">🏃 Deportivos</button>
-                    <button class="filtro-btn" onclick="filtrarCategoria('niños')">👶 Niños</button>
-                </div>
-                
-                <div class="catalogo-grid" id="catalogoGrid">
-            `;
-            
+            let html = '';
             for (const codigo in monturas) {
                 const montura = monturas[codigo];
                 if (!montura) continue;
-                
                 const nombreCategoria = {
-                    'hombre': '👨',
-                    'mujer': '👩', 
-                    'deportivo': '🏃',
-                    'niños': '👶'
+                    'hombre': '👨', 'mujer': '👩', 'deportivo': '🏃', 'niños': '👶'
                 }[montura.categoria] || '👓';
-                
-                html += `
-                    <div class="catalogo-item" data-categoria="${montura.categoria}" onclick="verMontura('${codigo}')">
-                        <img src="${montura.foto}" alt="Montura ${codigo}" class="catalogo-imagen">
-                        <div class="catalogo-codigo">${nombreCategoria} ${codigo}</div>
-                        <div class="catalogo-precio">${montura.precio}</div>
-                        <div class="catalogo-categoria">${montura.nombre && montura.nombre !== 'Sin nombre' ? montura.nombre : 'Sin nombre'}</div>
-                    </div>
-                `;
+                const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+                const enlaceMontura = `${baseUrl}?codigo=${codigo}`;
+                html += `<div class="montura-item"><div class="montura-info"><div class="montura-codigo">${nombreCategoria} ${codigo} - ${montura.precio}</div><div class="montura-detalles">${montura.nombre}</div></div><div class="montura-actions"><a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a><button onclick="eliminarMontura('${codigo}')" class="btn-small btn-eliminar">Eliminar</button></div></div>`;
             }
-            
-            html += `
-                </div>
-                
-                <div class="contacto-info">
-                    <h3>📞 Información de Contacto</h3>
-                    <div class="contacto-item">🏥 Urbana Visión</div>
-                    <div class="contacto-item">📱 (809) 713-5307</div>
-                    <div class="contacto-item">🎁 6 meses de garantía</div>
-                </div>
-            `;
-            
-            contenido.innerHTML = html;
+            container.innerHTML = html;
         }
         
-        function verMontura(codigo) {
-            window.location.href = `?codigo=${codigo}`;
-        }
-        
-        function filtrarCategoria(categoria) {
-            const botones = document.querySelectorAll('.filtro-btn');
-            botones.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const items = document.querySelectorAll('.catalogo-item');
-            items.forEach(item => {
-                if (categoria === 'todas' || item.dataset.categoria === categoria) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
+        function verCatalogo() { window.location.href = 'index.html'; }
     </script>
 </body>
 </html>
