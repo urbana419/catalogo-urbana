@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,39 +6,33 @@ html
     <title>Admin - Urbana Visión</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1f2937 0%, #374151 100%); min-height: 100vh; padding: 10px; color: white; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #1f2937 0%, #374151 100%); min-height: 100vh; padding: 10px; color: white; }
         .container { max-width: 400px; margin: 0 auto; }
-        .header { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 20px; backdrop-filter: blur(10px); }
-        .logo { width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #f97316); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; position: relative; }
-        .logo::before { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; box-shadow: inset 0 0 0 6px #3b82f6; }
+        .header { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .logo { width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #f97316); border-radius: 50%; margin: 0 auto 10px; }
         h1 { font-size: 20px; margin-bottom: 5px; }
         .subtitle { font-size: 12px; opacity: 0.8; }
-        .form-card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .form-card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
         .form-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #60a5fa; }
         .photo-upload { text-align: center; margin-bottom: 15px; }
-        .photo-preview { width: 150px; height: 150px; border: 2px dashed #60a5fa; border-radius: 10px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; }
-        .photo-preview:hover { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.1); }
+        .photo-preview { width: 150px; height: 150px; border: 2px dashed #60a5fa; border-radius: 10px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-size: cover; background-position: center; }
         .photo-preview.has-image { border-style: solid; }
         .photo-text { font-size: 12px; color: #60a5fa; text-align: center; }
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 12px; color: #d1d5db; margin-bottom: 5px; }
         .form-input { width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; font-size: 14px; }
         .form-input::placeholder { color: rgba(255,255,255,0.5); }
-        .form-input:focus { outline: none; border-color: #60a5fa; background: rgba(255,255,255,0.15); }
         .form-select { width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; font-size: 14px; }
         .form-select option { background: #374151; color: white; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .btn-primary { background: #10b981; color: white; }
-        .btn-primary:hover { background: #059669; }
         .btn-secondary { background: #6b7280; color: white; margin-top: 10px; }
-        .btn-secondary:hover { background: #4b5563; }
         .success-message { background: #10b981; color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px; font-size: 14px; display: none; }
         .enlace-result { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 10px; padding: 15px; margin-top: 15px; display: none; }
         .enlace-result h4 { color: #60a5fa; margin-bottom: 10px; font-size: 14px; }
         .enlace-url { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; word-break: break-all; font-family: monospace; }
         .mensaje-plantilla { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; white-space: pre-wrap; }
         .copy-btn { background: #6b7280; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; margin: 5px; width: calc(50% - 5px); }
-        .copy-btn:hover { background: #4b5563; }
         .monturas-lista { max-height: 300px; overflow-y: auto; }
         .montura-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .montura-info { flex: 1; }
@@ -49,8 +42,6 @@ html
         .btn-small { padding: 5px 10px; font-size: 11px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
         .btn-ver { background: #3b82f6; color: white; }
         .btn-eliminar { background: #ef4444; color: white; }
-        .btn-eliminar:hover { background: #dc2626; }
-        .nota-importante { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 11px; color: #10b981; }
     </style>
 </head>
 <body>
@@ -64,7 +55,7 @@ html
         <div class="form-card">
             <div class="form-title">📷 Subir Nueva Montura</div>
             
-            <div id="successMessage" class="success-message">✅ Montura guardada en catálogo</div>
+            <div id="successMessage" class="success-message">✅ Montura guardada</div>
             
             <div class="photo-upload">
                 <div class="photo-preview" id="photoPreview" onclick="document.getElementById('photoInput').click()">
@@ -75,7 +66,7 @@ html
             
             <div class="form-group">
                 <label class="form-label">Código de Montura</label>
-                <input type="text" class="form-input" id="codigo" placeholder="Ej: H001, M002, D003" maxlength="4">
+                <input type="text" class="form-input" id="codigo" placeholder="Ej: H001" maxlength="4">
             </div>
             
             <div class="form-group">
@@ -100,26 +91,25 @@ html
             </div>
             
             <button class="btn btn-primary" onclick="guardarEnCatalogo()">💾 Guardar en Catálogo</button>
-            <button class="btn btn-secondary" onclick="verCatalogo()">👁️ Ver Catálogo Cliente</button>
+            <button class="btn btn-secondary" onclick="verCatalogo()">👁️ Ver Catálogo</button>
             
             <div id="enlaceResult" class="enlace-result">
-                <h4>🔗 ¡Listo! Copia y envía:</h4>
-                <strong>📱 Enlace directo:</strong>
+                <h4>🔗 Listo para enviar:</h4>
+                <strong>📱 Enlace:</strong>
                 <div id="enlaceCatalogo" class="enlace-url"></div>
-                <strong>📋 Mensaje para copiar:</strong>
+                <strong>📋 Mensaje:</strong>
                 <div id="mensajePlantilla" class="mensaje-plantilla"></div>
                 <div style="display: flex; gap: 10px;">
                     <button class="copy-btn" onclick="copiarEnlace()">📋 Copiar Enlace</button>
                     <button class="copy-btn" onclick="copiarMensaje()">📋 Copiar Mensaje</button>
                 </div>
-                <div class="nota-importante">✅ <strong>FUNCIONA PERFECTO:</strong> El enlace se puede compartir por WhatsApp y la imagen se verá en cualquier teléfono o computadora.</div>
             </div>
         </div>
         
         <div class="form-card">
-            <div class="form-title">📋 Monturas en Catálogo</div>
+            <div class="form-title">📋 Monturas Guardadas</div>
             <div id="monturasGuardadas" class="monturas-lista">
-                <div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>
+                <div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas</div>
             </div>
         </div>
     </div>
@@ -133,35 +123,18 @@ html
             mostrarMonturasGuardadas();
         });
         
-        function compressImage(file, quality = 0.7) {
-            return new Promise((resolve) => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                const img = new Image();
-                img.onload = function() {
-                    const maxSize = 600;
-                    let { width, height } = img;
-                    if (width > height) {
-                        if (width > maxSize) { height = (height * maxSize) / width; width = maxSize; }
-                    } else {
-                        if (height > maxSize) { width = (width * maxSize) / height; height = maxSize; }
-                    }
-                    canvas.width = width; canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-                    resolve(canvas.toDataURL('image/jpeg', quality));
-                };
-                img.src = URL.createObjectURL(file);
-            });
-        }
-        
-        document.getElementById('photoInput').addEventListener('change', async function(e) {
+        document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                selectedPhoto = await compressImage(file);
-                const preview = document.getElementById('photoPreview');
-                preview.style.backgroundImage = `url(${selectedPhoto})`;
-                preview.classList.add('has-image');
-                preview.innerHTML = '<div class="photo-text" style="background: rgba(0,0,0,0.7); padding: 5px; border-radius: 5px; color: white;">✅ Foto Lista</div>';
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedPhoto = e.target.result;
+                    const preview = document.getElementById('photoPreview');
+                    preview.style.backgroundImage = `url(${selectedPhoto})`;
+                    preview.classList.add('has-image');
+                    preview.innerHTML = '<div class="photo-text" style="background: rgba(0,0,0,0.7); padding: 5px; border-radius: 5px; color: white;">✅ Foto Lista</div>';
+                };
+                reader.readAsDataURL(file);
             }
         });
         
@@ -171,14 +144,16 @@ html
             const precio = document.getElementById('precio').value.trim();
             const nombre = document.getElementById('nombre').value.trim();
             
-            if (!selectedPhoto) { alert('Por favor toma una foto de la montura'); return; }
-            if (!codigo) { alert('Por favor ingresa el código de la montura'); return; }
-            if (!categoria) { alert('Por favor selecciona una categoría'); return; }
-            if (!precio) { alert('Por favor ingresa el precio'); return; }
+            if (!selectedPhoto) { alert('Toma una foto'); return; }
+            if (!codigo) { alert('Ingresa el código'); return; }
+            if (!categoria) { alert('Selecciona categoría'); return; }
+            if (!precio) { alert('Ingresa el precio'); return; }
             
             const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
             monturas[codigo] = {
-                codigo, categoria, precio,
+                codigo: codigo,
+                categoria: categoria,
+                precio: precio,
                 nombre: nombre || 'Sin nombre',
                 foto: selectedPhoto,
                 fechaCreacion: new Date().toISOString()
@@ -192,21 +167,23 @@ html
             document.getElementById('enlaceCatalogo').textContent = enlaceCatalogo;
             
             const nombreCategoria = {
-                'hombre': '👨 Hombres', 'mujer': '👩 Mujeres', 
-                'deportivo': '🏃 Deportivos', 'niños': '👶 Niños'
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños'
             }[categoria];
             
-            const mensaje = `🥽 *NUEVA MONTURA - Urbana Visión*
+            const mensaje = `🥽 NUEVA MONTURA - Urbana Visión
 
-📋 *Código:* ${codigo}
-👤 *Categoría:* ${nombreCategoria}
-💰 *Precio:* ${precio}
-${nombre ? `📝 *Nombre:* ${nombre}` : ''}
+📋 Código: ${codigo}
+👤 Categoría: ${nombreCategoria}
+💰 Precio: ${precio}
+${nombre ? `📝 Nombre: ${nombre}` : ''}
 
-📱 *VER FOTO EN CATÁLOGO:*
+📱 VER FOTO:
 ${enlaceCatalogo}
 
-🏥 *Urbana Visión*
+🏥 Urbana Visión
 📱 809-713-5307
 🎁 6 meses garantía`;
             
@@ -222,11 +199,11 @@ ${enlaceCatalogo}
         }
 
         function copiarEnlace() {
-            navigator.clipboard.writeText(currentLink).then(() => alert('📋 Enlace copiado')).catch(() => alert('Copia manualmente el enlace'));
+            navigator.clipboard.writeText(currentLink).then(() => alert('📋 Enlace copiado')).catch(() => alert('Copia manualmente'));
         }
 
         function copiarMensaje() {
-            navigator.clipboard.writeText(currentMessage).then(() => alert('📋 Mensaje copiado')).catch(() => alert('Copia manualmente el mensaje'));
+            navigator.clipboard.writeText(currentMessage).then(() => alert('📋 Mensaje copiado')).catch(() => alert('Copia manualmente'));
         }
         
         function limpiarFormulario() {
@@ -242,12 +219,12 @@ ${enlaceCatalogo}
         }
 
         function eliminarMontura(codigo) {
-            if (confirm(`¿Eliminar montura ${codigo}?`)) {
+            if (confirm(`¿Eliminar ${codigo}?`)) {
                 const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
                 delete monturas[codigo];
                 localStorage.setItem('monturas', JSON.stringify(monturas));
                 mostrarMonturasGuardadas();
-                alert(`✅ Montura ${codigo} eliminada`);
+                alert(`✅ ${codigo} eliminada`);
             }
         }
         
@@ -255,7 +232,7 @@ ${enlaceCatalogo}
             const container = document.getElementById('monturasGuardadas');
             const monturas = JSON.parse(localStorage.getItem('monturas') || '{}');
             if (Object.keys(monturas).length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas aún</div>';
+                container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">No hay monturas guardadas</div>';
                 return;
             }
             let html = '';
@@ -267,7 +244,7 @@ ${enlaceCatalogo}
                 }[montura.categoria] || '👓';
                 const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
                 const enlaceMontura = `${baseUrl}?codigo=${codigo}`;
-                html += `<div class="montura-item"><div class="montura-info"><div class="montura-codigo">${nombreCategoria} ${codigo} - ${montura.precio}</div><div class="montura-detalles">${montura.nombre || 'Sin nombre'}</div></div><div class="montura-actions"><a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a><button onclick="eliminarMontura('${codigo}')" class="btn-small btn-eliminar">Eliminar</button></div></div>`;
+                html += `<div class="montura-item"><div class="montura-info"><div class="montura-codigo">${nombreCategoria} ${codigo} - ${montura.precio}</div><div class="montura-detalles">${montura.nombre}</div></div><div class="montura-actions"><a href="${enlaceMontura}" target="_blank" class="btn-small btn-ver">Ver</a><button onclick="eliminarMontura('${codigo}')" class="btn-small btn-eliminar">Eliminar</button></div></div>`;
             }
             container.innerHTML = html;
         }
